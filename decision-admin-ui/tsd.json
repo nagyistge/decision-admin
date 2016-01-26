@@ -1,0 +1,12 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "kendo-ui/kendo-ui.d.ts":{
+      "commit":"c2756b589de9d59636d933eba2a3449bfca995d1"
+    }
+  }
+}

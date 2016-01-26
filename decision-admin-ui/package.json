@@ -1,0 +1,64 @@
+{
+  "name": "DecisionApp",
+  "version": "1.0.0",
+  "description": "Sapiens Decision App",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sapienstech/decision-admin.git"
+  },
+  "engines": {
+    "node": "5.3.0"
+  },
+  "scripts": {
+    "postinstall": "npm run tsd && npm run tsc",
+    "install-tsd": "npm install tsd@0.6.5",
+    "install-typescript": "npm install typescript@1.7.5",
+    "install-live-server": "npm install live-server@0.8.2",
+    "test": "karma start ./src/infra/test/karma/karma.conf.js",
+    "e2e": "protractor src/infra/test/protractor/protractorConf.js",
+    "tsd": "tsd install",
+    "tsc": "tsc -p .",
+    "prestart": "npm install && npm run install-live-server",
+    "live-server": "live-server",
+    "start": "npm run live-server"
+  },
+  "author": "Sapiens",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "3.3.6",
+    "systemjs": "0.19.9",
+    "angular2": "2.0.0-beta.1",
+    "rxjs": "5.0.0-beta.0",
+    "zone.js": "0.5.10",
+    "es6-shim": "0.33.3",
+    "reflect-metadata": "0.1.2",
+    "es6-promise": "3.0.2",
+    "gojs": "1.5.7-decision",
+    "logfmt": "~0.18.1",
+    "express": "~3.4.7",
+    "connect-wwwhisper": "*"
+  },
+  "devDependencies": {
+    "cucumber": "^0.9.2",
+    "es6-module-loader": "^0.17.8",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.16",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-ie-launcher": "^0.2.0",
+    "karma-jasmine": "^0.3.6",
+    "karma-junit-reporter": "^0.2",
+    "karma-mocha-reporter": "^1.1.5",
+    "karma-phantomjs2-launcher": "^0.3.2",
+    "live-server": "0.8.2",
+    "traceur": "^0.0.91",
+    "tsd": "0.6.5",
+    "typescript": "1.7.5",
+
+     "protractor": "^3.0.0",
+     "protractor-cucumber-framework": "^0.3.2",
+     "zombie": "^4.0.8",
+     "chai":"^3.4.1",
+     "chai-as-promised" : "^5.2.0"
+
+  }
+}

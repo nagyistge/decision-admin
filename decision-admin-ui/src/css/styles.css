@@ -1,0 +1,28 @@
+.div,ul{
+    overflow: auto;
+}
+
+.box-it-horizontal
+{
+    margin: 20px;
+    float: left;
+    border-width: 1px;
+    border-color: black;
+    border: solid 1px;
+    height: 300px;
+    padding: 10px
+}
+
+
+.closeBtn
+{
+    height: 5px;
+    width: 5px;
+    cursor:hand;
+    color: darkred;
+    margin-left: 20px;
+}
+.closeBtn:hover {
+    color: red;
+    font-weight: bold;
+}
