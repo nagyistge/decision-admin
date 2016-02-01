@@ -1,8 +1,8 @@
 ﻿import {bootstrap} from 'angular2/platform/browser';
 import {Component} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
-import {ViewsComponent} from "./admin1/ViewsComponent";
-import {AdministrationSettingsComponent} from "./admin1/AdministrationSettings";
+import {ViewsComponent} from "./admin/ViewsComponent";
+import {AdministrationSettingsComponent} from "./admin/AdministrationSettings";
 
 @RouteConfig([
 
