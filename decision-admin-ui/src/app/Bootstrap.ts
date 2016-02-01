@@ -3,7 +3,7 @@ import {ROUTER_PROVIDERS, LocationStrategy, HashLocationStrategy} from 'angular2
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {bootstrap} from "angular2/platform/browser";
 import {AppComponent} from './App';
-import {AdminService} from "./services/AdminService";
+import {AdminService} from "./services/Admin/AdminService";
 
 
 

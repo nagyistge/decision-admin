@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/decision-admin.iml" filepath="$PROJECT_DIR$/decision-admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/decision-admin-ui/decision-admin-ui.iml" filepath="$PROJECT_DIR$/decision-admin-ui/decision-admin-ui.iml" />
     </modules>
   </component>

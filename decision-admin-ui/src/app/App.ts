@@ -2,10 +2,11 @@
 import {Component} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {ViewsComponent} from "./admin1/ViewsComponent";
+import {AdministrationSettingsComponent} from "./admin1/AdministrationSettings";
 
 @RouteConfig([
 
-    { path: '/views', component: ViewsComponent, as: 'Views' }
+    { path: '/admin', component: AdministrationSettingsComponent, as: 'Administration' }
 
 ])
 
@@ -18,7 +19,7 @@ import {ViewsComponent} from "./admin1/ViewsComponent";
 
     <h1>Decision App</h1>
     <nav>
-        <a  [routerLink]="['/Views']">Admin1</a>
+        <a  [routerLink]="['/Administration']">Admin1</a>
         <span> | </span>
 
     </nav>

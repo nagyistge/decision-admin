@@ -7,3 +7,4 @@
 # Do NOT ignore:
 !src/infra/**/*
 !src/data/**/*
+/.idea
