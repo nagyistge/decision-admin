@@ -1,0 +1,10 @@
+# Ignore:
+**/typings
+**/node_modules
+**/*.js
+**/*.js.map
+
+# Do NOT ignore:
+!src/infra/**/*
+!src/data/**/*
+/.idea
