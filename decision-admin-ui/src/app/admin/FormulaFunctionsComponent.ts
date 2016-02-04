@@ -66,9 +66,9 @@ export class FormulaFunctionsComponent extends ComponentBase{
         this.title='Formula functions';
 
         let self = this;
-        _adminService.getFormulas().subscribe((views:Response)=>
+        _adminService.getFormulas().subscribe((views:Array<Function>)=>
         {
-            self.functions=<Array<Function>>views.json();
+            self.functions=<Array<Function>>views;
 
         });
 

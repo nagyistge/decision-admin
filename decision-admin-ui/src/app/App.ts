@@ -3,6 +3,7 @@ import {Component} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {ViewsComponent} from "./admin/ViewsComponent";
 import {AdministrationSettingsComponent} from "./admin/AdministrationSettings";
+import {PopupManager} from "./commons/PopupManager";
 
 @RouteConfig([
 
@@ -11,7 +12,7 @@ import {AdministrationSettingsComponent} from "./admin/AdministrationSettings";
 ])
 
 @Component({
-    directives: [ROUTER_DIRECTIVES],
+    directives: [PopupManager,ROUTER_DIRECTIVES],
     selector: 'app',
     template: `
 
@@ -28,6 +29,8 @@ import {AdministrationSettingsComponent} from "./admin/AdministrationSettings";
         <router-outlet></router-outlet>
     </main>
 
+
+<popup-manager></popup-manager>
 </div>
 `
 })

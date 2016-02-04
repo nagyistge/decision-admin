@@ -13,6 +13,14 @@
     padding: 10px
 }
 
+.editBtn
+{
+    height: 5px;
+    width: 5px;
+    cursor:hand;
+    color: blue;
+    margin-left: 20px;
+}
 
 .closeBtn
 {
