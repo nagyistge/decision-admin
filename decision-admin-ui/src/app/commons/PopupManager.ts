@@ -3,53 +3,52 @@
 import {Component} from "angular2/core";
 import Popup = wijmo.input.Popup;
 import {wjNg2Input} from "../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
+import PopupTrigger = wijmo.input.PopupTrigger;
+import {DynamicComponentLoader} from "angular2/core";
 
 @Component({
     directives:[wjNg2Input.WjPopup],
     selector: 'popup-manager',
     template: `
     <div >
-      <div  id="saved" style="padding: 5px;margin-top: -200px">
-          <p>Saved</p>
-      </div>
 
-       <div  id="message" style="padding: 5px;margin-top: -200px">
-          <p>{{message}}</p>
+       <div  id="popup_message" style="padding: 5px;margin-top: -200px;visibility: collapse">
+          <p *ngFor="#msg of messages" >{{msg}}</p>
       </div>
 
     </div>
     `
 })
-export class PopupManager{
+export class PopupManager {
 
-    static popupSave ;
-    static popupMessage;
+    popupSave ;
+    popupMessage:Popup;
 
-    public static show (message) {
-       //TODO: need to work on this ,  need to be able to open multi message popups
+    messages:Array<string> = [];
+    constructor(){
+    }
 
-        alert(message);
-        //if(!this.popupMessage)
-        //    this.popupMessage = new Popup('#message');
-        //
-        //this.popupMessage.show();
-        //setTimeout(()=>{
-        //    this.popupMessage.hide();
-        //
-        //},2000);
+    ngOnInit(){
+        this.popupMessage = new Popup('#popup_message');
+        this.popupMessage.hideTrigger = PopupTrigger.None;
+    }
+
+    public show (message:string,showTime:number = 2000) {
+        let self = this;
+        this.messages.push(message);
+        if(!this.popupMessage.isVisible)
+            this.popupMessage.show();
+        setTimeout(()=>{
+            self.messages.pop();
+            if(self.messages.length == 0)
+                this.popupMessage.hide();
+        },showTime);
+
 
 
     };
 
-    public static saved(){
-        if(!this.popupSave)
-          this.popupSave = new Popup('#saved');
-
-            this.popupSave.show();
-            setTimeout(()=>{
-                this.popupSave.hide();
-
-            },2000);
-
+    public  saved(){
+      this.show("saved");
     }
 }

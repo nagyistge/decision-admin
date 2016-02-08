@@ -34,3 +34,21 @@
     color: red;
     font-weight: bold;
 }
+
+.busy{
+    background-color: whitesmoke;
+    opacity: 0.8;
+    float:left;
+    visibility: visible;
+}
+
+.not-busy{
+
+}
+
+.stack-panel {
+    position: relative;
+    float: left;
+    display: flex;
+    background-color: whitesmoke;
+}

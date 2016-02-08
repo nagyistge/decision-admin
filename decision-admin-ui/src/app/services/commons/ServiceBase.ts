@@ -5,16 +5,17 @@ import {URLSearchParams} from "angular2/http";
 import {Headers} from "angular2/http";
 import {RequestOptionsArgs} from "angular2/http";
 import {WebMethodEnum} from "./WebMethodEnum";
-import Observable = kendo.Observable;
 import {Response} from "angular2/http";
 import {PopupManager} from "../../commons/PopupManager";
+import {Observable} from "rxjs/Observable";
+import {AppComponent} from "../../App";
 
 export class ServiceBase{
 
     _url :string = "http://localhost:9080/ws/rs/administration";
     _requestOptionsArgs:RequestOptionsArgs;
 
-    constructor(private _http:Http){
+    constructor(private _http:Http,private _popupManager:PopupManager){
         this._requestOptionsArgs = <RequestOptionsArgs>{};
         this._requestOptionsArgs.headers = new Headers();
         this._requestOptionsArgs.headers.append( 'Content-Type', 'application/json');
@@ -60,7 +61,7 @@ export class ServiceBase{
                 obsrv.next(response);
             }, function (errorResponse) {
                 if (!ignoreExceptions || ignoreExceptions == false) {
-                    PopupManager.show('There is unexpected error from the server,please check your connection.');
+                    AppComponent.popupManager.show('There is unexpected error from the server,please check your connection.');
                 }
                 obsrv.next(errorResponse);
             });

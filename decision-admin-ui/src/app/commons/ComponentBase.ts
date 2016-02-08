@@ -1,4 +1,5 @@
 import set = Reflect.set;
+import {PopupManager} from "./PopupManager";
 
 export  abstract class ComponentBase {
 
@@ -8,11 +9,20 @@ export  abstract class ComponentBase {
         this.active=false;
     }
 
+
     private _hashId:number;
     private _name:string;
     private _hidden:boolean;
     private _title : string;
     private _active : boolean;
+    private _busy : boolean;
+
+    public get busy() : boolean {
+        return this._busy;
+    }
+    public set busy(v : boolean) {
+        this._busy = v;
+    }
 
     public get active() : boolean {
         return this._active;

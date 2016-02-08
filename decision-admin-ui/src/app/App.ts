@@ -4,6 +4,7 @@ import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {ViewsComponent} from "./admin/ViewsComponent";
 import {AdministrationSettingsComponent} from "./admin/AdministrationSettings";
 import {PopupManager} from "./commons/PopupManager";
+import {ViewChild} from "angular2/core";
 
 @RouteConfig([
 
@@ -30,12 +31,18 @@ import {PopupManager} from "./commons/PopupManager";
     </main>
 
 
-<popup-manager></popup-manager>
+<popup-manager #popup_manager ></popup-manager>
 </div>
 `
 })
 export class AppComponent {
     constructor() {
+
     }
+    ngAfterViewInit() {
+        AppComponent.popupManager = this.popup;
+    }
+    static popupManager:PopupManager;
+    @ViewChild('popup_manager') popup: any;
 }
 
