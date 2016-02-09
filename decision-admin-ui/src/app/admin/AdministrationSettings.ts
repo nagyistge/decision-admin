@@ -1,18 +1,20 @@
 import { Component } from 'angular2/core';
 import {NgFor} from "angular2/common";
-import {Tabs} from "../userControls/Tabs";
+import {TabControl} from "../userControls/TabControl";
 import {Tab} from "../userControls/Tab";
 import {ViewsComponent}  from "./ViewsComponent";
 import {VerbsComponent}  from "./VerbsComponent";
 import {FormulaFunctionsComponent}  from "./FormulaFunctionsComponent";
+import {TestTabs} from "./TestTabs";
 
 @Component({
     selector: 'administration-settings',
-    directives:[Tabs,Tab,ViewsComponent,VerbsComponent,FormulaFunctionsComponent,NgFor],
+    directives:[TabControl,Tab,ViewsComponent,VerbsComponent,FormulaFunctionsComponent,NgFor],
     template:`
 
     <div >
         <tabs >
+
           <tab tabTitle="verb" >
             <verbs-settings></verbs-settings>
           </tab>

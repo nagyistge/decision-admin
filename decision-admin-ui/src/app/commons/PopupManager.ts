@@ -29,11 +29,19 @@ export class PopupManager {
     }
 
     ngOnInit(){
+
+
         this.popupMessage = new Popup('#popup_message');
         this.popupMessage.hideTrigger = PopupTrigger.None;
     }
 
     public show (message:string,showTime:number = 2000) {
+
+        //let hostEl = document.createElement('div');
+        //this.popupMessage = new Popup(hostEl);
+        //this.popupMessage.content = document.createElement('div');
+        //this.popupMessage.content.innerHTML = '<p>lalalal</p>';
+
         let self = this;
         this.messages.push(message);
         if(!this.popupMessage.isVisible)

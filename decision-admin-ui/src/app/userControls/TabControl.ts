@@ -1,5 +1,10 @@
 import {Component} from "angular2/core";
 import {Tab} from "./Tab";
+import {ViewChild} from "angular2/core";
+import {ElementRef} from "angular2/core";
+import {ComponentBase} from "../commons/ComponentBase";
+import {Query} from "angular2/core";
+import {QueryList} from "angular2/core";
 
 @Component({
     selector: 'tabs',
@@ -11,11 +16,23 @@ import {Tab} from "./Tab";
         </a>
       </li>
     </ul>
-    <ng-content></ng-content>
+    <div  id="content">
+        <ng-content></ng-content>
+    </div>
   `,
 })
-export class Tabs {
+export class TabControl {
     tabs: Tab[] = [];
+
+    constructor(@Query(Tab) tabs: QueryList<Tab>){
+
+        tabs.changes.subscribe((items)=>{
+            items.toArray().forEach((tab)=>{
+                this.addTab(tab);
+            });
+        });
+
+    }
 
     selectTab(tab: Tab) {
         this.tabs.forEach((tab) => {
@@ -30,4 +47,6 @@ export class Tabs {
         }
         this.tabs.push(tab);
     }
+
+
 }

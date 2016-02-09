@@ -5,6 +5,7 @@ import {ViewsComponent} from "./admin/ViewsComponent";
 import {AdministrationSettingsComponent} from "./admin/AdministrationSettings";
 import {PopupManager} from "./commons/PopupManager";
 import {ViewChild} from "angular2/core";
+import {TestTabs} from "./admin/TestTabs";
 
 @RouteConfig([
 
@@ -13,13 +14,16 @@ import {ViewChild} from "angular2/core";
 ])
 
 @Component({
-    directives: [PopupManager,ROUTER_DIRECTIVES],
+    directives: [PopupManager,ROUTER_DIRECTIVES,TestTabs],
     selector: 'app',
     template: `
 
     <div>
 
     <h1>Decision App</h1>
+
+
+
     <nav>
         <a  [routerLink]="['/Administration']">Admin1</a>
         <span> | </span>

@@ -5,6 +5,9 @@ import {bootstrap} from "angular2/platform/browser";
 import {AppComponent} from './App';
 import {AdminService} from "./services/Admin/AdminService";
 import {PopupManager} from "./commons/PopupManager";
+import {ComponentRef} from "angular2/core";
+import {ElementRef} from "angular2/core";
+import {QueryList} from "angular2/core";
 
 
 
@@ -12,7 +15,7 @@ const APP_BINDINGS = [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS, 
     provide(LocationStrategy, { useClass: HashLocationStrategy }),
-    PopupManager,AdminService
+    PopupManager,AdminService,ComponentRef,ElementRef,QueryList
 ];
 //enableProdMode();
 bootstrap(AppComponent,APP_BINDINGS);
