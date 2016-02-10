@@ -5,7 +5,6 @@ import {Tab} from "../userControls/Tab";
 import {ViewsComponent}  from "./ViewsComponent";
 import {VerbsComponent}  from "./VerbsComponent";
 import {FormulaFunctionsComponent}  from "./FormulaFunctionsComponent";
-import {TestTabs} from "./TestTabs";
 
 @Component({
     selector: 'administration-settings',
