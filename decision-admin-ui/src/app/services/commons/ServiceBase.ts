@@ -9,6 +9,7 @@ import {Response} from "angular2/http";
 import {PopupManager} from "../../commons/PopupManager";
 import {Observable} from "rxjs/Observable";
 import {AppComponent} from "../../App";
+import {PopupHelper} from "../../commons/PopupHelper";
 
 export class ServiceBase{
 
@@ -61,7 +62,7 @@ export class ServiceBase{
                 obsrv.next(response);
             }, function (errorResponse) {
                 if (!ignoreExceptions || ignoreExceptions == false) {
-                    AppComponent.popupManager.show('There is unexpected error from the server,please check your connection.');
+                    PopupHelper.showError('There is unexpected error from the server,please check your connection.');
                 }
                 obsrv.next(errorResponse);
             });

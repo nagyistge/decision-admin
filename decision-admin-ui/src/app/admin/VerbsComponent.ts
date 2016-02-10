@@ -18,6 +18,7 @@ import {BusyIndicator} from "../commons/BusyIndicator";
 import {AppComponent} from "../App";
 import {ViewChild} from "angular2/core";
 import ListBox = wijmo.input.ListBox;
+import {PopupHelper} from "../commons/PopupHelper";
 
 @Component({
     selector: 'verbs-settings',
@@ -30,7 +31,7 @@ import ListBox = wijmo.input.ListBox;
                     <input #newVerb type="text" style="width: 255px">
                     <button (click)="addVerb(newVerb.value)">Add</button>
             </div>
-            <busy-indicator [busy]="busy" [title]="'please wait'" >
+            <busy-indicator [busy]="isWorking" [title]="'please wait'" >
                 <wj-list-box #verbs_listbox  style="position: absolute; height:100%;width:100%;margin-top: 10px"
                                [selectedValue]="selectedVerb"  [itemsSource]="verbs" >
                     <template wjItemTemplate #item="item" #itemIndex="itemIndex">
@@ -90,10 +91,10 @@ export class VerbsComponent extends ComponentBase{
 
     private getAllVerbs(){
         let self = this;
-        this.busy= true;
+        this.workingCountUp('get all verbs');
         this._resourceService.getEntities().subscribe((response:Response)=>
         {
-            self.busy=false;
+            this.workingCountDown('get all verbs');
             if (response.ok) {
                 self.verbs = response.json();
             }
@@ -107,11 +108,11 @@ export class VerbsComponent extends ComponentBase{
         temp.name=val;
         temp.id = selectedItem.id;
         let self = this;
-        this.busy= true;
+        this.workingCountUp('editVerb');
         this._resourceService.updateEntity(temp).subscribe((response)=>{
-            self.busy=false;
+            this.workingCountDown('editVerb');
             if (response.ok) {
-                AppComponent.popupManager.saved();
+                PopupHelper.showInfo('Saved');
                 let index = this.verbs.findIndex(v=>v.id == temp.id);
                 if(index != -1) {
                     self.verbs[index].name = temp.name;
@@ -123,27 +124,22 @@ export class VerbsComponent extends ComponentBase{
 
     private addVerb(verb:string){
         let self = this;
-        this.busy= true;
-
+        this.workingCountUp('addVerb');
         let response = this._resourceService.addEntity(verb);
         response.subscribe((response:Response)=>{
-            this.busy= false;
+            this.workingCountDown('addVerb');
             if (response.ok)
             {
+                PopupHelper.showInfo('Added');
                 console.log('subscribedr 1 : ' +response.json());
                 let _verb :Verb = <Verb>{};
-                AppComponent.popupManager.saved();
                 _verb.id = response.json();
                 _verb.name = verb;
                 self._verbs.push(_verb);
                 self.listBox.refresh();
             }
         });
-      setTimeout(()=>{
-          response.subscribe((response:Response)=> {
-              console.log('subscribedr 2 : '+response.json());
-          });
-      },2000);
+
 
     }
 
@@ -151,12 +147,10 @@ export class VerbsComponent extends ComponentBase{
 
         let self = this;
         let response = this._resourceService.deleteEntity(id.toString());
-        this.busy= true;
+        this.workingCountUp('deleteVerb');
         response.subscribe((response:Response)=>{
-            this.busy= false;
-
+            this.workingCountDown();
             if (response.ok) {
-                AppComponent.popupManager.saved();
                 let index = self.verbs.findIndex(v=>v.id == id);
                 if(index != -1) {
                     self.verbs.splice(index, 1);
@@ -165,9 +159,7 @@ export class VerbsComponent extends ComponentBase{
             }
         });
 
-        response.subscribe((response:Response)=> {
-           console.log('subscribedr 2'+response)
-        });
+
     }
 }
 

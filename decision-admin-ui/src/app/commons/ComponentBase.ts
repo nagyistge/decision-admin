@@ -15,14 +15,36 @@ export  abstract class ComponentBase {
     private _hidden:boolean;
     private _title : string;
     private _active : boolean;
-    private _busy : boolean;
+    private _workingCount :number= 0;
+    private _isWorking : boolean;
 
-    public get busy() : boolean {
-        return this._busy;
+    public get isWorking() : boolean {
+        return this._isWorking;
     }
-    public set busy(v : boolean) {
-        this._busy = v;
+    public set isWorking(v : boolean) {
+        this._isWorking = v;
     }
+
+    public workingCountUp(from :string = "")
+    {
+        //TODO: try to get calling method name
+        this._workingCount++;
+        console.log(" UP --->" + this._workingCount + " " + from);
+        this.isWorking = true;
+    }
+
+
+
+    public workingCountDown(from :string = "")
+    {
+        //TODO: try to get calling method name
+        this._workingCount--;
+        console.log(" Down --->" + this._workingCount + " " + from);
+
+        if (this._workingCount == 0)
+            this.isWorking = false;
+    }
+
 
     public get active() : boolean {
         return this._active;

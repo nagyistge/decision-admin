@@ -12,6 +12,7 @@ import {HTTP_PROVIDERS} from "angular2/http";
 import {Response} from "angular2/http";
 import {ConnectableObservable} from "rxjs/Rx";
 import {AppComponent} from "../../App";
+import {PopupHelper} from "../../commons/PopupHelper";
 @Injectable()
 export class ResourceService{
 
@@ -33,25 +34,25 @@ export class ResourceService{
         var _this = this;
         var returnObservable = Observable.create(function (obsrv) {
 
-
-
             response.subscribe(function (response) {
                 //TODO: check if the response if bdmsException - need to check this code!
                 if (_this.isBdmsException(response)) {
                 }
                 response.ok = true;
-
                 //TODO: this is for testing the busy indicator,delete it when you done.
                 setTimeout(()=>{
                     obsrv.next(response);
-                },2000);
-
+                },1000);
                 //obsrv.next(response);
             }, function (errorResponse) {
                 if (!ignoreExceptions || ignoreExceptions == false) {
-                    AppComponent.popupManager.show('There is unexpected error from the server,please check your connection.');
+                    PopupHelper.showError('There is unexpected error from the server,please check your connection.');
                 }
-                obsrv.next(errorResponse);
+                //TODO: this is for testing the busy indicator,delete it when you done.
+                setTimeout(()=>{
+                    obsrv.next(response);
+                },1000);
+                //obsrv.next(errorResponse);
             });
 
         });

@@ -5,7 +5,6 @@ import {ViewsComponent} from "./admin/ViewsComponent";
 import {AdministrationSettingsComponent} from "./admin/AdministrationSettings";
 import {PopupManager} from "./commons/PopupManager";
 import {ViewChild} from "angular2/core";
-import {TestTabs} from "./admin/TestTabs";
 
 @RouteConfig([
 
@@ -14,7 +13,7 @@ import {TestTabs} from "./admin/TestTabs";
 ])
 
 @Component({
-    directives: [PopupManager,ROUTER_DIRECTIVES,TestTabs],
+    directives: [PopupManager,ROUTER_DIRECTIVES],
     selector: 'app',
     template: `
 
@@ -34,8 +33,6 @@ import {TestTabs} from "./admin/TestTabs";
         <router-outlet></router-outlet>
     </main>
 
-
-<popup-manager #popup_manager ></popup-manager>
 </div>
 `
 })
@@ -43,10 +40,5 @@ export class AppComponent {
     constructor() {
 
     }
-    ngAfterViewInit() {
-        AppComponent.popupManager = this.popup;
-    }
-    static popupManager:PopupManager;
-    @ViewChild('popup_manager') popup: any;
 }
 
