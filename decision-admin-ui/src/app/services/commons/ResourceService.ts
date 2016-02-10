@@ -1,6 +1,3 @@
-
-
-import {PopupManager} from "../../commons/PopupManager";
 import {Observable} from "rxjs/Observable";
 import {Injectable} from "angular2/core";
 import 'rxjs/Rx';
@@ -13,6 +10,7 @@ import {Response} from "angular2/http";
 import {ConnectableObservable} from "rxjs/Rx";
 import {AppComponent} from "../../App";
 import {PopupHelper} from "../../commons/PopupHelper";
+import {SapResponse} from "./SapResponse";
 @Injectable()
 export class ResourceService{
 
@@ -20,7 +18,7 @@ export class ResourceService{
     _requestOptionsArgs:RequestOptionsArgs;
     _http:Http;
 
-    constructor(private _resourceName:string,private _popupManager:PopupManager){
+    constructor(private _resourceName:string){
         this._http = Injector.resolveAndCreate([Http,HTTP_PROVIDERS]).get(Http);
         this._requestOptionsArgs = <RequestOptionsArgs>{};
         this._requestOptionsArgs.headers = new Headers();
@@ -30,18 +28,25 @@ export class ResourceService{
 
     }
 
-    interceptRequest(response, ignoreExceptions) :ConnectableObservable<Response> {
+    interceptRequest(response, ignoreExceptions) :ConnectableObservable<SapResponse<any>> {
         var _this = this;
         var returnObservable = Observable.create(function (obsrv) {
-
+        var sapResponse:SapResponse<any> = new SapResponse<any>();
             response.subscribe(function (response) {
+                if(response.status != 204)
+                    sapResponse.result= response.json();
+                sapResponse.status = response.status;
+                sapResponse.ok = response.ok;
+                sapResponse.statusText= response.statusText;
+                sapResponse.type = response.type;
+
                 //TODO: check if the response if bdmsException - need to check this code!
                 if (_this.isBdmsException(response)) {
                 }
-                response.ok = true;
+                sapResponse.ok = true;
                 //TODO: this is for testing the busy indicator,delete it when you done.
                 setTimeout(()=>{
-                    obsrv.next(response);
+                    obsrv.next(sapResponse);
                 },1000);
                 //obsrv.next(response);
             }, function (errorResponse) {
@@ -66,24 +71,24 @@ export class ResourceService{
             return false;
     };
 
-    public getEntity(id:string, ignoreExceptions?:boolean) :Observable<Response> {
+    public getEntity(id:string, ignoreExceptions?:boolean) :Observable<SapResponse<any>> {
         var response = this._http.get(this._url + this._resourceName + "/" + id, this._requestOptionsArgs).first();
         return this.interceptRequest(response, ignoreExceptions);
 };
-    public getEntities(ignoreExceptions?:boolean):Observable<Response>  {
+    public getEntities(ignoreExceptions?:boolean):Observable<SapResponse<any>>  {
         var response = this._http.get(this._url + this._resourceName, this._requestOptionsArgs).first();
         return this.interceptRequest(response, ignoreExceptions);
 };
-    public deleteEntity(id:string, ignoreExceptions?:boolean) :Observable<Response>  {
+    public deleteEntity(id:string, ignoreExceptions?:boolean) :Observable<SapResponse<any>>  {
         var response = this._http.delete(this._url + this._resourceName + "/" + id, this._requestOptionsArgs).first();
         return this.interceptRequest(response, ignoreExceptions);
 
 };
-    public addEntity(entity:any, ignoreExceptions?:boolean) :Observable<Response> {
+    public addEntity(entity:any, ignoreExceptions?:boolean) :Observable<SapResponse<any>> {
         var response = this._http.post(this._url + this._resourceName, JSON.stringify(entity), this._requestOptionsArgs).first();
         return this.interceptRequest(response, ignoreExceptions);
 };
-    public updateEntity(entity:any, ignoreExceptions?:boolean) :Observable<Response> {
+    public updateEntity(entity:any, ignoreExceptions?:boolean) :Observable<SapResponse<any>> {
         var response = this._http.put(this._url + this._resourceName, JSON.stringify(entity), this._requestOptionsArgs);
         return this.interceptRequest(response, ignoreExceptions);
 };

@@ -19,6 +19,7 @@ import {AppComponent} from "../App";
 import {ViewChild} from "angular2/core";
 import ListBox = wijmo.input.ListBox;
 import {PopupHelper} from "../commons/PopupHelper";
+import {SapResponse} from "../services/commons/SapResponse";
 
 @Component({
     selector: 'verbs-settings',
@@ -55,7 +56,6 @@ import {PopupHelper} from "../commons/PopupHelper";
 })
 export class VerbsComponent extends ComponentBase{
 
-    private _resourceRoot :string = "/administration";
     private _verbs : Array<Verb> = [];
     private _resourceService:ResourceService;
     private _selectedVerb : any;
@@ -85,18 +85,19 @@ export class VerbsComponent extends ComponentBase{
 
     public init()
     {
-        this._resourceService = new ResourceService(this._resourceRoot + "/verb",this._popupManager);
+        this._resourceService = new ResourceService("/administration/verb");
         this.getAllVerbs();
     }
 
     private getAllVerbs(){
         let self = this;
         this.workingCountUp('get all verbs');
-        this._resourceService.getEntities().subscribe((response:Response)=>
+        this._resourceService.getEntities().
+            subscribe((response:SapResponse<Array<Verb>>)=>
         {
             this.workingCountDown('get all verbs');
             if (response.ok) {
-                self.verbs = response.json();
+                self.verbs = response.result;
             }
         });
     }
@@ -109,7 +110,7 @@ export class VerbsComponent extends ComponentBase{
         temp.id = selectedItem.id;
         let self = this;
         this.workingCountUp('editVerb');
-        this._resourceService.updateEntity(temp).subscribe((response)=>{
+        this._resourceService.updateEntity(temp).subscribe((response:SapResponse<any>)=>{
             this.workingCountDown('editVerb');
             if (response.ok) {
                 PopupHelper.showInfo('Saved');
@@ -126,14 +127,14 @@ export class VerbsComponent extends ComponentBase{
         let self = this;
         this.workingCountUp('addVerb');
         let response = this._resourceService.addEntity(verb);
-        response.subscribe((response:Response)=>{
+        response.subscribe((response:SapResponse<number>)=>{
             this.workingCountDown('addVerb');
             if (response.ok)
             {
                 PopupHelper.showInfo('Added');
-                console.log('subscribedr 1 : ' +response.json());
+                console.log('subscribedr 1 : ' +response.result);
                 let _verb :Verb = <Verb>{};
-                _verb.id = response.json();
+                _verb.id = response.result;
                 _verb.name = verb;
                 self._verbs.push(_verb);
                 self.listBox.refresh();
@@ -148,7 +149,7 @@ export class VerbsComponent extends ComponentBase{
         let self = this;
         let response = this._resourceService.deleteEntity(id.toString());
         this.workingCountUp('deleteVerb');
-        response.subscribe((response:Response)=>{
+        response.subscribe((response:SapResponse<any>)=>{
             this.workingCountDown();
             if (response.ok) {
                 let index = self.verbs.findIndex(v=>v.id == id);
