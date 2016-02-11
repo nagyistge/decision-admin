@@ -33,25 +33,27 @@ import {SapResponse} from "../services/commons/SapResponse";
                     <button (click)="addVerb(newVerb.value)">Add</button>
             </div>
             <busy-indicator [busy]="isWorking" [title]="'please wait'" >
-                <wj-list-box #verbs_listbox  style="position: absolute; height:100%;width:100%;margin-top: 10px"
+                <wj-list-box #verbs_listbox  style="position: absolute; height:100%;width:300px;margin-top: 10px"
                                [selectedValue]="selectedVerb"  [itemsSource]="verbs" >
                     <template wjItemTemplate #item="item" #itemIndex="itemIndex">
                        <div style="display: flex;flex-direction:row" >
                              <h7 style="flex-grow:1">{{item.name}}</h7>
                              <div *ngIf="verbs_listbox.selectedValue.id==item.id">
                                  <img  class="sap-icon" src="src/app/icons/delete.png" (click)="deleteVerb(item.id)">
-                                 <img  class="sap-icon" src="src/app/icons/edit.png" [attr.id]="'b'+item.id" >
+                                 <img  class="sap-icon" src="src/app/icons/edit.png"   [attr.id]="'b'+item.id">
+                                 <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
+                                   <span>Edit value:</span>
+                                   <input type="text" [value]="item.name" #valueBox>
+                                   <button class="wj-hide" (click)="editVerb(item,valueBox.value)">OK</button>
+                                   <button class="wj-hide">Cancel</button>
+                                </wj-popup>
                              </div>
-                             <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
-                               <span>Edit value:</span>
-                               <input type="text" [value]="item.name" #valueBox>
-                               <button class="wj-hide" (click)="editVerb(item,valueBox.value)">OK</button>
-                               <button class="wj-hide">Cancel</button>
-                            </wj-popup>
+
                        </div>
                     </template>
                 </wj-list-box>
             </busy-indicator>
+
     </div>
 
     `
@@ -76,7 +78,7 @@ export class VerbsComponent extends ComponentBase{
         this._selectedVerb = v;
     }
 
-    constructor(private _popupManager:PopupManager){
+    constructor(){
         super();
         this.title='Verbs';
         this.init();

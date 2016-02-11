@@ -11,7 +11,6 @@ import {Observable} from "rxjs/Observable";
 import Popup = wijmo.input.Popup;
 import PopupTrigger = wijmo.input.PopupTrigger;
 import CancelEventArgs = wijmo.CancelEventArgs;
-import {PopupManager} from "../commons/PopupManager";
 import {Injector} from "angular2/core";
 import {BusyIndicator} from "../commons/BusyIndicator";
 import {AppComponent} from "../App";
@@ -20,20 +19,22 @@ import {PopupHelper} from "../commons/PopupHelper";
 import {SapResponse} from "../services/commons/SapResponse";
 import {View} from "../../data/wsdl_types";
 import ListBox = wijmo.input.ListBox;
+import {CORE_DIRECTIVES} from "angular2/common";
+
 
 @Component({
     selector: 'views-settings',
-    directives:[wjNg2Input.WjListBox,wjNg2Input.WjItemTemplate,wjNg2Input.WjPopup,BusyIndicator],
+    directives:[BusyIndicator,wjNg2Input.WjComboBox,wjNg2Input.WjListBox,wjNg2Input.WjItemTemplate,wjNg2Input.WjPopup],
     template: `
     <div style="margin-left: 10px">
     <div>
             <div >
-                    <h3> verbs </h3>
-                    <input #newverb type="text" style="width: 255px">
+                    <h3> Views </h3>
+                    <input #newView type="text" style="width: 255px">
                     <button (click)="addView(newView.value)">Add</button>
             </div>
-            <busy-indicator [busy]="isWorking" [title]="'please wait'" >
-                <wj-list-box #views_listbox  style="position: absolute; height:100%;width:100%;margin-top: 10px"
+            <busy-indicator [busy]="isWorking" [title]="'please wait'">
+                <wj-list-box #views_listbox  style="position: absolute; height:100%;width:300px;margin-top: 10px"
                                [selectedValue]="selectedView"  [itemsSource]="views" >
                     <template wjItemTemplate #item="item" #itemIndex="itemIndex">
                        <div style="display: flex;flex-direction:row" >
@@ -41,13 +42,14 @@ import ListBox = wijmo.input.ListBox;
                              <div *ngIf="views_listbox.selectedValue.id==item.id">
                                  <img  class="sap-icon" src="src/app/icons/delete.png" (click)="deleteView(item.id)">
                                  <img  class="sap-icon" src="src/app/icons/edit.png" [attr.id]="'b'+item.id" >
+                                 <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
+                                   <span>Edit value:</span>
+                                   <input type="text" [value]="item.name" #valueBox>
+                                   <button class="wj-hide" (click)="editView(item,valueBox.value)">OK</button>
+                                   <button class="wj-hide">Cancel</button>
+                                </wj-popup>
                              </div>
-                             <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
-                               <span>Edit value:</span>
-                               <input type="text" [value]="item.name" #valueBox>
-                               <button class="wj-hide" (click)="editView(item,valueBox.value)">OK</button>
-                               <button class="wj-hide">Cancel</button>
-                            </wj-popup>
+
                        </div>
                     </template>
                 </wj-list-box>
@@ -76,11 +78,12 @@ export class ViewsComponent extends ComponentBase{
         this._selectedView = v;
     }
 
-    constructor(private _popupManager:PopupManager){
+    constructor(){
         super();
+        this.isWorking=false;
         this.title='Views';
         this.init();
-        this.isWorking=false;
+
     }
 
     @ViewChild('views_listbox') listBox :ListBox;
@@ -147,7 +150,7 @@ export class ViewsComponent extends ComponentBase{
 
     }
 
-    deleteverb(id:number){
+    deleteView(id:number){
 
         let self = this;
         let response = this._resourceService.deleteEntity(id.toString());

@@ -1,9 +1,7 @@
 ﻿import {bootstrap} from 'angular2/platform/browser';
 import {Component} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
-import {ViewsComponent} from "./admin/ViewsComponent";
 import {AdministrationSettingsComponent} from "./admin/AdministrationSettings";
-import {PopupManager} from "./commons/PopupManager";
 import {ViewChild} from "angular2/core";
 
 @RouteConfig([
@@ -13,7 +11,7 @@ import {ViewChild} from "angular2/core";
 ])
 
 @Component({
-    directives: [PopupManager,ROUTER_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES],
     selector: 'app',
     template: `
 

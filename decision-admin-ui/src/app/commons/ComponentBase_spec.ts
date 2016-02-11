@@ -15,19 +15,19 @@ import {
 
 
 export function main() {
-    describe('ComponentBase', () => {
-        beforeEachProviders(() =>
-            [
-                provide(TestComponent, { useClass: TestComponent })
-            ]
-        );
-        it('Should have hashId', inject([TestComponent], (cmpbase:ComponentBase) => {
-            expect(cmpbase.getHashId()).toBeDefined();
-            expect(cmpbase.getHashId()).not.toBe(null);
-
-
-        }));
-    });
+    //describe('ComponentBase', () => {
+    //    beforeEachProviders(() =>
+    //        [
+    //            provide(TestComponent, { useClass: TestComponent })
+    //        ]
+    //    );
+    //    it('Should have hashId', inject([TestComponent], (cmpbase:ComponentBase) => {
+    //        expect(cmpbase.getHashId()).toBeDefined();
+    //        expect(cmpbase.getHashId()).not.toBe(null);
+    //
+    //
+    //    }));
+    //});
 
 }
 
