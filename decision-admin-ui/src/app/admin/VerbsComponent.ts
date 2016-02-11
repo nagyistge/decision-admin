@@ -36,11 +36,13 @@ import {SapResponse} from "../services/commons/SapResponse";
                 <wj-list-box #verbs_listbox  style="position: absolute; height:100%;width:100%;margin-top: 10px"
                                [selectedValue]="selectedVerb"  [itemsSource]="verbs" >
                     <template wjItemTemplate #item="item" #itemIndex="itemIndex">
-                       <div class="row" >
-                          <div class="col-md-2"><h7>{{item.name}}</h7></div>
-                          <div class="col-md-2 closeBtn" (click)="deleteVerb(item.id)">x</div>
-                          <div [attr.id]="'b'+item.id" class="col-md-2 editBtn" >i</div>
-                            <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
+                       <div style="display: flex;flex-direction:row" >
+                             <h7 style="flex-grow:1">{{item.name}}</h7>
+                             <div *ngIf="verbs_listbox.selectedValue.id==item.id">
+                                 <img  class="sap-icon" src="src/app/icons/delete.png" (click)="deleteVerb(item.id)">
+                                 <img  class="sap-icon" src="src/app/icons/edit.png" [attr.id]="'b'+item.id" >
+                             </div>
+                             <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
                                <span>Edit value:</span>
                                <input type="text" [value]="item.name" #valueBox>
                                <button class="wj-hide" (click)="editVerb(item,valueBox.value)">OK</button>
@@ -93,7 +95,7 @@ export class VerbsComponent extends ComponentBase{
         let self = this;
         this.workingCountUp('get all verbs');
         this._resourceService.getEntities().
-            subscribe((response:SapResponse<Array<Verb>>)=>
+        subscribe((response:SapResponse<Array<Verb>>)=>
         {
             this.workingCountDown('get all verbs');
             if (response.ok) {

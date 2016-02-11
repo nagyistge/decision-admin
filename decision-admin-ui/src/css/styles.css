@@ -2,6 +2,16 @@
     overflow: auto;
 }
 
+.sap-icon
+{
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+    margin-right: 5px;
+}
+.sap-icon:hover{
+    opacity: 1;
+}
 .box-it-horizontal
 {
     margin: 20px;
