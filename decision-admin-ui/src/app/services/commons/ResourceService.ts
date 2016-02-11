@@ -35,6 +35,7 @@ export class ResourceService{
             response.subscribe(function (response) {
                 if(response.status != 204)
                     sapResponse.result= response.json();
+
                 sapResponse.status = response.status;
                 sapResponse.ok = response.ok;
                 sapResponse.statusText= response.statusText;
@@ -53,9 +54,14 @@ export class ResourceService{
                 if (!ignoreExceptions || ignoreExceptions == false) {
                     PopupHelper.showError('There is unexpected error from the server,please check your connection.');
                 }
+                sapResponse.status = errorResponse.status;
+                sapResponse.ok = errorResponse.ok;
+                sapResponse.statusText= errorResponse.statusText;
+                sapResponse.type = errorResponse.type;
+
                 //TODO: this is for testing the busy indicator,delete it when you done.
                 setTimeout(()=>{
-                    obsrv.next(response);
+                    obsrv.next(sapResponse);
                 },1000);
                 //obsrv.next(errorResponse);
             });

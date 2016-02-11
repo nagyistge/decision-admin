@@ -1,5 +1,6 @@
 import set = Reflect.set;
 import {PopupManager} from "./PopupManager";
+import {ViewModelBase} from "./ViewModelBase";
 
 export  abstract class ComponentBase {
 
@@ -17,6 +18,15 @@ export  abstract class ComponentBase {
     private _active : boolean;
     private _workingCount :number= 0;
     private _isWorking : boolean;
+
+    private _viewModel : ViewModelBase;
+
+    public get viewModel() : ViewModelBase {
+        return this._viewModel;
+    }
+    public set viewModel(v : ViewModelBase) {
+        this._viewModel = v;
+    }
 
     public get isWorking() : boolean {
         return this._isWorking;
