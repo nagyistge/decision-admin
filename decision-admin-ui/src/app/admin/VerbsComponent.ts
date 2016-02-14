@@ -32,8 +32,8 @@ import {SapResponse} from "../services/commons/SapResponse";
                     <input #newVerb type="text" style="width: 255px">
                     <button (click)="addVerb(newVerb.value)">Add</button>
             </div>
-            <busy-indicator [busy]="isWorking" [title]="'please wait'" >
-                <wj-list-box #verbs_listbox  style="position: absolute; height:100%;width:300px;margin-top: 10px"
+            <busy-indicator [busy]="isWorking" [title]="'please wait'" style="width:300px; height:500px;">
+                <wj-list-box #verbs_listbox  style="position: absolute;width:inherit; height:inherit;margin-top: 10px"
                                [selectedValue]="selectedVerb"  [itemsSource]="verbs" >
                     <template wjItemTemplate #item="item" #itemIndex="itemIndex">
                        <div style="display: flex;flex-direction:row" >
