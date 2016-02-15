@@ -8,23 +8,28 @@ import {provide} from "angular2/core";
 import {wjNg2Input} from "../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
 import {ResourceService} from "../services/commons/ResourceService";
 import {Observable} from "rxjs/Observable";
+import {View} from "../../data/wsdl_types";
 import Popup = wijmo.input.Popup;
 import PopupTrigger = wijmo.input.PopupTrigger;
 import CancelEventArgs = wijmo.CancelEventArgs;
+import {PopupManager} from "../commons/PopupManager";
 import {Injector} from "angular2/core";
 import {BusyIndicator} from "../commons/BusyIndicator";
 import {AppComponent} from "../App";
 import {ViewChild} from "angular2/core";
+import ListBox = wijmo.input.ListBox;
 import {PopupHelper} from "../commons/PopupHelper";
 import {SapResponse} from "../services/commons/SapResponse";
-import {View} from "../../data/wsdl_types";
-import ListBox = wijmo.input.ListBox;
-import {CORE_DIRECTIVES} from "angular2/common";
+import {ResourceProviderFactory} from "../services/commons/ResourceProviderFactory";
+import CollectionView = wijmo.collections.CollectionView;
+
 
 
 @Component({
+
     selector: 'views-settings',
-    directives:[BusyIndicator,wjNg2Input.WjComboBox,wjNg2Input.WjListBox,wjNg2Input.WjItemTemplate,wjNg2Input.WjPopup],
+    providers:[ResourceProviderFactory.ViewsServiceProvider],
+    directives:[wjNg2Input.WjListBox,wjNg2Input.WjItemTemplate,wjNg2Input.WjPopup,BusyIndicator],
     template: `
     <div style="margin-left: 10px">
     <div>
@@ -33,15 +38,15 @@ import {CORE_DIRECTIVES} from "angular2/common";
                     <input #newView type="text" style="width: 255px">
                     <button (click)="addView(newView.value)">Add</button>
             </div>
-            <busy-indicator [busy]="isWorking" [title]="'please wait'">
-                <wj-list-box #views_listbox  style="position: absolute; height:100%;width:300px;margin-top: 10px"
-                               [selectedValue]="selectedView"  [itemsSource]="views" >
+            <busy-indicator [busy]="isWorking" [title]="'please wait'" style="width:300px;flex-grow: 1;position: relative;height: 500px">
+                <wj-list-box #views_listbox  style="position: absolute;width:inherit; height:100%;margin-top: 10px"
+                               [selectedValue]="selectedView"  [itemsSource]="_viewsCollectionView" >
                     <template wjItemTemplate #item="item" #itemIndex="itemIndex">
                        <div style="display: flex;flex-direction:row" >
                              <h7 style="flex-grow:1">{{item.name}}</h7>
-                             <div *ngIf="views_listbox.selectedValue.id==item.id">
+                             <div *ngIf="views_listbox.selectedValue && views_listbox.selectedValue.id==item.id">
                                  <img  class="sap-icon" src="src/app/icons/delete.png" (click)="deleteView(item.id)">
-                                 <img  class="sap-icon" src="src/app/icons/edit.png" [attr.id]="'b'+item.id" >
+                                 <img  class="sap-icon" src="src/app/icons/edit.png"   [attr.id]="'b'+item.id">
                                  <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
                                    <span>Edit value:</span>
                                    <input type="text" [value]="item.name" #valueBox>
@@ -54,6 +59,7 @@ import {CORE_DIRECTIVES} from "angular2/common";
                     </template>
                 </wj-list-box>
             </busy-indicator>
+
     </div>
 
     `
@@ -61,8 +67,8 @@ import {CORE_DIRECTIVES} from "angular2/common";
 export class ViewsComponent extends ComponentBase{
 
     private _views : Array<View> = [];
-    private _resourceService:ResourceService;
-    private _selectedView : any;
+    private _viewsCollectionView:CollectionView;
+    private _selectedView:View;
 
     public get views() : Array<View> {
         return this._views;
@@ -71,27 +77,21 @@ export class ViewsComponent extends ComponentBase{
         this._views = v;
     }
 
-    public get selectedView() : any {
+    public get selectedView() : View{
         return this._selectedView;
     }
-    public set selectedView(v : any) {
+    public set selectedView(v : View) {
         this._selectedView = v;
     }
 
-    constructor(){
+    constructor(private _resourceService:ResourceService){
         super();
-        this.isWorking=false;
         this.title='Views';
         this.init();
-
     }
-
-    @ViewChild('views_listbox') listBox :ListBox;
-
 
     public init()
     {
-        this._resourceService = new ResourceService("/administration/view");
         this.getAllViews();
     }
 
@@ -104,6 +104,7 @@ export class ViewsComponent extends ComponentBase{
             this.workingCountDown('get all views');
             if (response.ok) {
                 self.views = response.result;
+                self._viewsCollectionView = new CollectionView(self.views);
             }
         });
     }
@@ -124,7 +125,7 @@ export class ViewsComponent extends ComponentBase{
                 if(index != -1) {
                     self.views[index].name = temp.name;
                 }
-                self.listBox.refresh();
+                self._viewsCollectionView.refresh();
             }
         });
     }
@@ -143,18 +144,18 @@ export class ViewsComponent extends ComponentBase{
                 _view.id = response.result;
                 _view.name = view;
                 self._views.push(_view);
-                self.listBox.refresh();
+                self._viewsCollectionView.refresh();
             }
         });
 
 
     }
 
-    deleteView(id:number){
+    private deleteView(id:number){
 
         let self = this;
         let response = this._resourceService.deleteEntity(id.toString());
-        this.workingCountUp('deleteverb');
+        this.workingCountUp('deleteView');
         response.subscribe((response:SapResponse<any>)=>{
             this.workingCountDown();
             if (response.ok) {
@@ -162,7 +163,7 @@ export class ViewsComponent extends ComponentBase{
                 if(index != -1) {
                     self.views.splice(index, 1);
                 }
-                self.listBox.refresh();
+                self._viewsCollectionView.refresh();
             }
         });
 

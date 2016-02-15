@@ -14,16 +14,16 @@ import {FormulaFunctionsComponent}  from "./FormulaFunctionsComponent";
     <div >
         <tabs >
 
-          <tab tabTitle="verb" >
+          <tab tabTitle="verb"  >
             <verbs-settings></verbs-settings>
           </tab>
-          <tab tabTitle="views">
+          <tab tabTitle="views" >
             <views-settings></views-settings>
           </tab>
-
-          <tab tabTitle="formula functions">
+           <tab tabTitle="formula functions">
             <formula-functions-settings></formula-functions-settings>
           </tab>
+
         </tabs>
 
      </div>

@@ -20,25 +20,31 @@ import {ViewChild} from "angular2/core";
 import ListBox = wijmo.input.ListBox;
 import {PopupHelper} from "../commons/PopupHelper";
 import {SapResponse} from "../services/commons/SapResponse";
+import {ResourceProviderFactory} from "../services/commons/ResourceProviderFactory";
+import CollectionView = wijmo.collections.CollectionView;
+
+
 
 @Component({
+
     selector: 'verbs-settings',
+    providers:[ResourceProviderFactory.VerbsServiceProvider],
     directives:[wjNg2Input.WjListBox,wjNg2Input.WjItemTemplate,wjNg2Input.WjPopup,BusyIndicator],
     template: `
-    <div style="margin-left: 10px">
-    <div>
+    <div style="margin-left: 10px" >
+    <div >
             <div >
                     <h3> Verbs </h3>
                     <input #newVerb type="text" style="width: 255px">
                     <button (click)="addVerb(newVerb.value)">Add</button>
             </div>
-            <busy-indicator [busy]="isWorking" [title]="'please wait'" style="width:300px; height:500px;">
-                <wj-list-box #verbs_listbox  style="position: absolute;width:inherit; height:inherit;margin-top: 10px"
-                               [selectedValue]="selectedVerb"  [itemsSource]="verbs" >
+            <busy-indicator [busy]="isWorking" [title]="'please wait'" style="width:300px;flex-grow: 1;position: relative;height: 500px;margin-top: 10px">
+                <wj-list-box #verbs_listbox  style="position: absolute;width:inherit; height:100%;margin-top: 10px"
+                               [selectedValue]="selectedVerb"  [itemsSource]="_verbsCollectionView" >
                     <template wjItemTemplate #item="item" #itemIndex="itemIndex">
                        <div style="display: flex;flex-direction:row" >
                              <h7 style="flex-grow:1">{{item.name}}</h7>
-                             <div *ngIf="verbs_listbox.selectedValue.id==item.id">
+                             <div *ngIf="verbs_listbox.selectedValue && verbs_listbox.selectedValue.id==item.id">
                                  <img  class="sap-icon" src="src/app/icons/delete.png" (click)="deleteVerb(item.id)">
                                  <img  class="sap-icon" src="src/app/icons/edit.png"   [attr.id]="'b'+item.id">
                                  <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
@@ -61,8 +67,8 @@ import {SapResponse} from "../services/commons/SapResponse";
 export class VerbsComponent extends ComponentBase{
 
     private _verbs : Array<Verb> = [];
-    private _resourceService:ResourceService;
-    private _selectedVerb : any;
+    private _verbsCollectionView:CollectionView;
+    private _selectedVerb:Verb;
 
     public get verbs() : Array<Verb> {
         return this._verbs;
@@ -71,25 +77,21 @@ export class VerbsComponent extends ComponentBase{
         this._verbs = v;
     }
 
-    public get selectedVerb() : any {
+    public get selectedVerb() : Verb{
         return this._selectedVerb;
     }
-    public set selectedVerb(v : any) {
+    public set selectedVerb(v : Verb) {
         this._selectedVerb = v;
     }
 
-    constructor(){
+    constructor(private _resourceService:ResourceService){
         super();
         this.title='Verbs';
         this.init();
     }
 
-    @ViewChild('verbs_listbox') listBox :ListBox;
-
-
     public init()
     {
-        this._resourceService = new ResourceService("/administration/verb");
         this.getAllVerbs();
     }
 
@@ -102,6 +104,7 @@ export class VerbsComponent extends ComponentBase{
             this.workingCountDown('get all verbs');
             if (response.ok) {
                 self.verbs = response.result;
+                self._verbsCollectionView = new CollectionView(self.verbs);
             }
         });
     }
@@ -122,7 +125,7 @@ export class VerbsComponent extends ComponentBase{
                 if(index != -1) {
                     self.verbs[index].name = temp.name;
                 }
-                self.listBox.refresh();
+                self._verbsCollectionView.refresh();
             }
         });
     }
@@ -141,14 +144,14 @@ export class VerbsComponent extends ComponentBase{
                 _verb.id = response.result;
                 _verb.name = verb;
                 self._verbs.push(_verb);
-                self.listBox.refresh();
+                self._verbsCollectionView.refresh();
             }
         });
 
 
     }
 
-    deleteVerb(id:number){
+    private deleteVerb(id:number){
 
         let self = this;
         let response = this._resourceService.deleteEntity(id.toString());
@@ -160,7 +163,7 @@ export class VerbsComponent extends ComponentBase{
                 if(index != -1) {
                     self.verbs.splice(index, 1);
                 }
-                self.listBox.refresh();
+                self._verbsCollectionView.refresh();
             }
         });
 

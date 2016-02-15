@@ -16,7 +16,7 @@ import {QueryList} from "angular2/core";
         </a>
       </li>
     </ul>
-    <div  id="content">
+    <div  id="content" >
         <ng-content></ng-content>
     </div>
   `,

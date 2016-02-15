@@ -27,7 +27,7 @@ import {ViewChild} from "angular2/core";
 
     </nav>
 
-    <main style="margin-top: 20px">
+    <main style="margin-top: 20px;height: 800px">
         <router-outlet></router-outlet>
     </main>
 
