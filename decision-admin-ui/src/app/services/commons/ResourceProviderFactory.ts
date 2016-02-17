@@ -6,5 +6,6 @@ export class ResourceProviderFactory{
 
     public static VerbsServiceProvider = provide(ResourceService, {useFactory: ()=>{return new ResourceService('/administration/verb');}});
     public static ViewsServiceProvider = provide(ResourceService, {useFactory: ()=>{return new ResourceService('/administration/view');}});
+    public static FunctionsServiceProvider = provide(ResourceService, {useFactory: ()=>{return new ResourceService('/administration/function');}});
 
 }

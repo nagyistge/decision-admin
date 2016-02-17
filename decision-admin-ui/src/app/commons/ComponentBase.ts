@@ -1,8 +1,9 @@
 import set = Reflect.set;
-import {PopupManager} from "./PopupManager";
-import {ViewModelBase} from "./ViewModelBase";
+import {Input} from "angular2/core";
+import {Injectable} from "angular2/core";
 
-export  abstract class ComponentBase {
+@Injectable()
+export  class ComponentBase {
 
     constructor() {
         this._hashId = Math.floor(Math.random()*100000);
@@ -19,14 +20,10 @@ export  abstract class ComponentBase {
     private _workingCount :number= 0;
     private _isWorking : boolean;
 
-    private _viewModel : ViewModelBase;
 
-    public get viewModel() : ViewModelBase {
-        return this._viewModel;
-    }
-    public set viewModel(v : ViewModelBase) {
-        this._viewModel = v;
-    }
+    @Input() name1:string;
+
+
 
     public get isWorking() : boolean {
         return this._isWorking;

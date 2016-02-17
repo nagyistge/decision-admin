@@ -84,6 +84,7 @@ export class PopupHelper {
             popup = new wijmo.input.Popup(hostEl, popupOptions),
             componentRef: ComponentRef,
             dcl = injector.get(DynamicComponentLoader);
+        popup.hideTrigger=PopupTrigger.None;
         popup.content = document.createElement('div');
 
         dcl.loadNextToLocation(componentType, elementRef).then((cmpRef) => {
