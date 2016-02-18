@@ -10,7 +10,7 @@ import {Response} from "angular2/http";
 import {ConnectableObservable} from "rxjs/Rx";
 import {AppComponent} from "../../App";
 import {PopupHelper} from "../../commons/PopupHelper";
-import {SapResponse} from "./SapResponse";
+import {DecResponse} from "./DecResponse";
 @Injectable()
 export class ResourceService{
 
@@ -28,40 +28,40 @@ export class ResourceService{
 
     }
 
-    interceptRequest(response, ignoreExceptions) :ConnectableObservable<SapResponse<any>> {
+    interceptRequest(response, ignoreExceptions) :ConnectableObservable<DecResponse<any>> {
         var _this = this;
         var returnObservable = Observable.create(function (obsrv) {
-        var sapResponse:SapResponse<any> = new SapResponse<any>();
+        var decResponse:DecResponse<any> = new DecResponse<any>();
             response.subscribe(function (response) {
                 if(response.status != 204)
-                    sapResponse.result= response.json();
+                    decResponse.result= response.json();
 
-                sapResponse.status = response.status;
-                sapResponse.ok = response.ok;
-                sapResponse.statusText= response.statusText;
-                sapResponse.type = response.type;
+                decResponse.status = response.status;
+                decResponse.ok = response.ok;
+                decResponse.statusText= response.statusText;
+                decResponse.type = response.type;
 
                 //TODO: check if the response if bdmsException - need to check this code!
                 if (_this.isBdmsException(response)) {
                 }
-                sapResponse.ok = true;
+                decResponse.ok = true;
                 //TODO: this is for testing the busy indicator,delete it when you done.
                 setTimeout(()=>{
-                    obsrv.next(sapResponse);
+                    obsrv.next(decResponse);
                 },1000);
                 //obsrv.next(response);
             }, function (errorResponse) {
                 if (!ignoreExceptions || ignoreExceptions == false) {
                     PopupHelper.showError('There is unexpected error from the server,please check your connection.');
                 }
-                sapResponse.status = errorResponse.status;
-                sapResponse.ok = errorResponse.ok;
-                sapResponse.statusText= errorResponse.statusText;
-                sapResponse.type = errorResponse.type;
+                decResponse.status = errorResponse.status;
+                decResponse.ok = errorResponse.ok;
+                decResponse.statusText= errorResponse.statusText;
+                decResponse.type = errorResponse.type;
 
                 //TODO: this is for testing the busy indicator,delete it when you done.
                 setTimeout(()=>{
-                    obsrv.next(sapResponse);
+                    obsrv.next(decResponse);
                 },1000);
                 //obsrv.next(errorResponse);
             });
@@ -77,24 +77,24 @@ export class ResourceService{
             return false;
     };
 
-    public getEntity(id:string, ignoreExceptions?:boolean) :Observable<SapResponse<any>> {
+    public getEntity(id:string, ignoreExceptions?:boolean) :Observable<DecResponse<any>> {
         var response = this._http.get(this._url + this._resourceName + "/" + id, this._requestOptionsArgs).first();
         return this.interceptRequest(response, ignoreExceptions);
 };
-    public getEntities(ignoreExceptions?:boolean):Observable<SapResponse<any>>  {
+    public getEntities(ignoreExceptions?:boolean):Observable<DecResponse<any>>  {
         var response = this._http.get(this._url + this._resourceName, this._requestOptionsArgs).first();
         return this.interceptRequest(response, ignoreExceptions);
 };
-    public deleteEntity(id:string, ignoreExceptions?:boolean) :Observable<SapResponse<any>>  {
+    public deleteEntity(id:string, ignoreExceptions?:boolean) :Observable<DecResponse<any>>  {
         var response = this._http.delete(this._url + this._resourceName + "/" + id, this._requestOptionsArgs).first();
         return this.interceptRequest(response, ignoreExceptions);
 
 };
-    public addEntity(entity:any, ignoreExceptions?:boolean) :Observable<SapResponse<any>> {
+    public addEntity(entity:any, ignoreExceptions?:boolean) :Observable<DecResponse<any>> {
         var response = this._http.post(this._url + this._resourceName, JSON.stringify(entity), this._requestOptionsArgs).first();
         return this.interceptRequest(response, ignoreExceptions);
 };
-    public updateEntity(entity:any, ignoreExceptions?:boolean) :Observable<SapResponse<any>> {
+    public updateEntity(entity:any, ignoreExceptions?:boolean) :Observable<DecResponse<any>> {
         var response = this._http.put(this._url + this._resourceName, JSON.stringify(entity), this._requestOptionsArgs);
         return this.interceptRequest(response, ignoreExceptions);
 };

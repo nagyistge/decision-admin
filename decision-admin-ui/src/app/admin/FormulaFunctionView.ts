@@ -35,11 +35,6 @@ import {NgModel} from "angular2/common";
             <input  type="checkbox">
         </div>
 
-        <div>
-            <button>Add Parameter</button>
-            <button>Remove Parameter</button>
-        </div>
-
         <div style="height: 260px">
              <wj-flex-grid #flex [allowResizing]="'Both'" style="width:650px; margin-top: 10px"
                                               class="grid"

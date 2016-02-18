@@ -12,7 +12,7 @@ import CollectionView = wijmo.collections.CollectionView;
 import {BusyIndicator} from "../commons/BusyIndicator";
 import {ResourceService} from "../services/commons/ResourceService";
 import {ResourceProviderFactory} from "../services/commons/ResourceProviderFactory";
-import {SapResponse} from "../services/commons/SapResponse";
+import {DecResponse} from "../services/commons/DecResponse";
 import {PopupHelper} from "../commons/PopupHelper";
 import {FormulaFunctionView} from "./FormulaFunctionView";
 import {ElementRef} from "angular2/core";
@@ -45,7 +45,6 @@ import {Subscriber} from "rxjs/Subscriber";
         <div>
                 <div >
                         <h3> Formulas </h3>
-                        <input type="text" [(ngModel)]="newFormula">
                         <button (click)="addFormulaFunction(functionView)">Add</button>
                         <button (click)="editFormulaFunction(ffGrid.selectedItems,functionView)">Edit</button>
                         <button (click)="refresh()">Refresh</button>
@@ -106,7 +105,7 @@ export class FormulaFunctionsComponent extends ComponentBase{
 
         let self = this;
         this.workingCountUp('get formulas');
-        this._resourceService.getEntities().subscribe((response:SapResponse<Array<Function>>)=>
+        this._resourceService.getEntities().subscribe((response:DecResponse<Array<Function>>)=>
         {
             this.workingCountDown('get formulas');
             if (response.ok) {
@@ -147,7 +146,7 @@ export class FormulaFunctionsComponent extends ComponentBase{
 
 
         let popupCallback = (confirmed)=>{
-            self.formulaFunctionView.submit.remove(popupCallback);
+            subscriber.unsubscribe();
             if(confirmed)
                 self._functionsCollectionView.refresh();
             };
@@ -165,7 +164,7 @@ export class FormulaFunctionsComponent extends ComponentBase{
         popup.show(true);
 
         let popupCallback = (confirmed)=>{
-            self.formulaFunctionView.submit.remove(popupCallback);
+            subscriber.unsubscribe();
             if(confirmed)
             {
                 self.functions.push(self._currentFormulaFunction);
@@ -173,7 +172,7 @@ export class FormulaFunctionsComponent extends ComponentBase{
             }
         };
 
-        this.formulaFunctionView.submit.subscribe(popupCallback);
+        let subscriber= this.formulaFunctionView.submit.subscribe(popupCallback);
 
 
     }

@@ -1,6 +1,6 @@
 import {ResponseType} from "angular2/http";
 
-export class SapResponse<T> {
+export class DecResponse<T> {
 
     type: ResponseType;
     ok: boolean;

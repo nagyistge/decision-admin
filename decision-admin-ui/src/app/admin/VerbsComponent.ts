@@ -19,7 +19,7 @@ import {AppComponent} from "../App";
 import {ViewChild} from "angular2/core";
 import ListBox = wijmo.input.ListBox;
 import {PopupHelper} from "../commons/PopupHelper";
-import {SapResponse} from "../services/commons/SapResponse";
+import {DecResponse} from "../services/commons/DecResponse";
 import {ResourceProviderFactory} from "../services/commons/ResourceProviderFactory";
 import CollectionView = wijmo.collections.CollectionView;
 
@@ -45,8 +45,8 @@ import CollectionView = wijmo.collections.CollectionView;
                        <div style="display: flex;flex-direction:row" >
                              <h7 style="flex-grow:1">{{item.name}}</h7>
                              <div *ngIf="verbs_listbox.selectedValue && verbs_listbox.selectedValue.id==item.id">
-                                 <img  class="sap-icon" src="src/app/icons/delete.png" (click)="deleteVerb(item.id)">
-                                 <img  class="sap-icon" src="src/app/icons/edit.png"   [attr.id]="'b'+item.id">
+                                 <img  class="dec-icon" src="src/app/icons/delete.png" (click)="deleteVerb(item.id)">
+                                 <img  class="dec-icon" src="src/app/icons/edit.png"   [attr.id]="'b'+item.id">
                                  <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
                                    <span>Edit value:</span>
                                    <input type="text" [value]="item.name" #valueBox>
@@ -99,7 +99,7 @@ export class VerbsComponent extends ComponentBase{
         let self = this;
         this.workingCountUp('get all verbs');
         this._resourceService.getEntities().
-        subscribe((response:SapResponse<Array<Verb>>)=>
+        subscribe((response:DecResponse<Array<Verb>>)=>
         {
             this.workingCountDown('get all verbs');
             if (response.ok) {
@@ -117,7 +117,7 @@ export class VerbsComponent extends ComponentBase{
         temp.id = selectedItem.id;
         let self = this;
         this.workingCountUp('editVerb');
-        this._resourceService.updateEntity(temp).subscribe((response:SapResponse<any>)=>{
+        this._resourceService.updateEntity(temp).subscribe((response:DecResponse<any>)=>{
             this.workingCountDown('editVerb');
             if (response.ok) {
                 PopupHelper.showInfo('Saved');
@@ -134,7 +134,7 @@ export class VerbsComponent extends ComponentBase{
         let self = this;
         this.workingCountUp('addVerb');
         let response = this._resourceService.addEntity(verb);
-        response.subscribe((response:SapResponse<number>)=>{
+        response.subscribe((response:DecResponse<number>)=>{
             this.workingCountDown('addVerb');
             if (response.ok)
             {
@@ -156,7 +156,7 @@ export class VerbsComponent extends ComponentBase{
         let self = this;
         let response = this._resourceService.deleteEntity(id.toString());
         this.workingCountUp('deleteVerb');
-        response.subscribe((response:SapResponse<any>)=>{
+        response.subscribe((response:DecResponse<any>)=>{
             this.workingCountDown();
             if (response.ok) {
                 let index = self.verbs.findIndex(v=>v.id == id);
