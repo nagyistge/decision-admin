@@ -16,7 +16,7 @@ import {NgModel} from "angular2/common";
     selector: 'formula-function-view',
     template:
     `
-    <div style="height: 600px;width: 700px;padding: 20px;">
+   <div style="height: 600px;width: 700px;padding: 20px;">
         <h4 class="modal-header">{{title}}</h4>
         <div style="display:flex;flex-direction: row;margin-bottom: 5px">
             <p style="width: 200px">Name:</p>
@@ -28,11 +28,11 @@ import {NgModel} from "angular2/common";
         </div>
         <div style="display:flex;flex-direction: row;margin-bottom: 5px">
             <p style="width: 200px">Return Type:</p>
-            <wj-combo-box  [itemsSource]="targetTypeList" [(selectedItem)]="model.returnType" style="flex-grow: 1;height:30px" ></wj-combo-box>
+            <wj-combo-box  [itemsSource]="formulaTargetTypeList" [(selectedItem)]="model.returnType" style="flex-grow: 1;height:30px" ></wj-combo-box>
         </div>
         <div style="display:flex;flex-direction: row;margin-bottom: 5px">
             <p style="width: 200px">Is Enabled</p>
-            <input  type="checkbox">
+            <input ([ngModel])="isEnabled" type="checkbox">
         </div>
 
         <div style="height: 260px">
@@ -41,9 +41,14 @@ import {NgModel} from "angular2/common";
                                               [itemsSource]="model.arguments"
                                               [isReadOnly]="false"
                                               [allowAddNew]="true"
+                                              [sortRowIndex]="0"
                                              >
                                 <wj-flex-grid-column [header]="'Name'" [binding]="'name'" [width]="'*'"></wj-flex-grid-column>
-                                <wj-flex-grid-column [header]="'Type'"  [binding]="'type'" [width]="'*'"></wj-flex-grid-column>
+                                <wj-flex-grid-column [header]="'Type'"  [binding]="'type'" [width]="'*'">
+                                   <template wjFlexGridCellTemplate [cellType]="'CellEdit'" #cell="cell">
+                                     <wj-combo-box  [itemsSource]="argumentsTargetTypeList" [(selectedItem)]="cell.value" style="flex-grow: 1;height:30px" ></wj-combo-box>
+                                   </template>
+                                </wj-flex-grid-column>
                                 <wj-flex-grid-column [header]="'List'"  [binding]="'list'" [width]="'*'"></wj-flex-grid-column>
                                 <wj-flex-grid-column [header]="'Infinite'"  [binding]="'infinite'" [width]="'*'"></wj-flex-grid-column>
              </wj-flex-grid>
@@ -59,20 +64,12 @@ import {NgModel} from "angular2/common";
 })
 export class FormulaFunctionView extends ComponentBase{
 
-    @Input() model: any; // cant declare it as Function
+    private formulaTargetTypeList : CollectionView;
+    private argumentsTargetTypeList : CollectionView;
 
-    private targetTypeList : CollectionView;
+    @Input() model: any = {};
+    @Output() submit = new EventEmitter();
 
-    private _selectedType : string;
-
-    public get selectedType() : string {
-        return this._selectedType;
-    }
-    public set selectedType(v : string) {
-        this._selectedType = v;
-        if(this.model)
-            this.model.returnType=PrimitiveDataType[v];
-    }
 
     private fillTypesList() {
         let tempList : string[]=[];
@@ -84,15 +81,16 @@ export class FormulaFunctionView extends ComponentBase{
         tempList.push(PrimitiveDataType[PrimitiveDataType.MONTH_YEAR]);
         tempList.push(PrimitiveDataType[PrimitiveDataType.ENUMERATOR]);
         tempList.push(PrimitiveDataType[PrimitiveDataType.INTEGER]);
-        this.targetTypeList =new CollectionView(tempList);
+        this.formulaTargetTypeList =new CollectionView(tempList);
+        this.argumentsTargetTypeList=new CollectionView(tempList);
     }
     constructor(){
-     super();
-     this.title = "Formula Function";
-    this.fillTypesList();
+        super();
+        this.title = "Formula Function";
+        this.fillTypesList();
     }
 
-    @Output() submit = new EventEmitter();
+
 
     onSubmit(confirm: boolean) {
         this.submit.emit(confirm);

@@ -7,7 +7,7 @@ import {FakeAdminService} from "../services/Admin/FakeAdminService";
 import {provide} from "angular2/core";
 import {IdName} from "../../data/wsdl_types";
 import {Formula} from "../../data/wsdl_types";
-import { wjNg2Grid } from '../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid';
+import {wjNg2Grid} from '../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid';
 import CollectionView = wijmo.collections.CollectionView;
 import {BusyIndicator} from "../commons/BusyIndicator";
 import {ResourceService} from "../services/commons/ResourceService";
@@ -35,7 +35,6 @@ import {ContentChild} from "angular2/core";
 import {Subscriber} from "rxjs/Subscriber";
 
 
-
 @Component({
     selector: 'formula-functions-settings',
     providers:[ResourceProviderFactory.FunctionsServiceProvider],
@@ -47,10 +46,11 @@ import {Subscriber} from "rxjs/Subscriber";
                         <h3> Formulas </h3>
                         <button (click)="addFormulaFunction(functionView)">Add</button>
                         <button (click)="editFormulaFunction(ffGrid.selectedItems,functionView)">Edit</button>
+                        <button (click)="delete(ffGrid.selectedItems)">Delete</button>
                         <button (click)="refresh()">Refresh</button>
                 </div>
                  <busy-indicator [busy]="isWorking" [title]="'please wait'" style="width:100%; height:500px;margin-top: 10px" >
-                     <wj-flex-grid #ffGrid [allowResizing]="'Both'" style="position: absolute;width:inherit; height:inherit;margin-top: 10px"
+                     <wj-flex-grid #ffGrid [allowResizing]="'Both'" style="position: absolute;width:inherit; height:inherit;margin-top:50px"
                                           class="grid"
                                           [itemsSource]="_functionsCollectionView"
                                           [isReadOnly]="true"
@@ -70,10 +70,11 @@ import {Subscriber} from "rxjs/Subscriber";
                     </wj-flex-grid>
                 </busy-indicator>
                   <wj-popup  style="padding:10px" #functionView >
-                    <formula-function-view [(model)]="_currentFormulaFunction" (submit)="functionView.hide()"></formula-function-view>
+                    <formula-function-view [model]="_currentFormulaFunction" (submit)="functionView.hide()"></formula-function-view>
                   </wj-popup>
 
         </div>
+
     </div>`
 })
 export class FormulaFunctionsComponent extends ComponentBase{
@@ -99,7 +100,6 @@ export class FormulaFunctionsComponent extends ComponentBase{
     }
 
     @ViewChild(FormulaFunctionView) formulaFunctionView:FormulaFunctionView;
-
 
     public init(){
 
@@ -136,19 +136,46 @@ export class FormulaFunctionsComponent extends ComponentBase{
     private _currentFormulaFunction : Function= <Function>{};
 
 
+    private delete(formulaFunction:Function[])
+    {
+        let self = this;
+        this.workingCountUp('deleteFunction');
+        this._resourceService.deleteEntity(formulaFunction[0].id.toString()).subscribe((response)=>{
+            this.workingCountDown('deleteFunction');
+            if(response.ok)
+           {
+               PopupHelper.showInfo('Items Deleted');
+               let index = self.functions.findIndex(s=>s.id ==formulaFunction[0].id);
+               self.functions.splice(index,1);
+               self._functionsCollectionView.refresh();
+           }
+        });
+    }
+
+
+
     private editFormulaFunction(formulaFunction:Function[],popup:Popup)
     {
-        this._currentFormulaFunction=formulaFunction[0];
-
+        this._currentFormulaFunction= this.clone(formulaFunction[0]);
         let self = this;
         popup.hideTrigger=PopupTrigger.None;
         popup.show(true);
 
-
         let popupCallback = (confirmed)=>{
             subscriber.unsubscribe();
             if(confirmed)
-                self._functionsCollectionView.refresh();
+            {
+                this.workingCountUp('editFormulaFunction');
+                self._resourceService.updateEntity(self._currentFormulaFunction).subscribe((response)=>
+                {
+                    this.workingCountDown('editFormulaFunction');
+                    if(response.ok) {
+                        let index = self.functions.findIndex(s=>s.id == self._currentFormulaFunction.id);
+                        self.functions[index] = self._currentFormulaFunction;
+                        self._functionsCollectionView.refresh();
+                    }
+                });
+            }
             };
 
         let subscriber= this.formulaFunctionView.submit.subscribe(popupCallback);
@@ -159,6 +186,7 @@ export class FormulaFunctionsComponent extends ComponentBase{
 
     private addFormulaFunction(popup:Popup){
         this._currentFormulaFunction= <Function>{};
+        this._currentFormulaFunction.arguments=[];
         let self = this;
         popup.hideTrigger=PopupTrigger.None;
         popup.show(true);
@@ -167,12 +195,21 @@ export class FormulaFunctionsComponent extends ComponentBase{
             subscriber.unsubscribe();
             if(confirmed)
             {
-                self.functions.push(self._currentFormulaFunction);
-                self._functionsCollectionView.refresh();
+                this.workingCountUp('addFormulaFunction');
+                self._resourceService.addEntity(self._currentFormulaFunction).subscribe((response)=>
+                {
+                    this.workingCountDown('addFormulaFunction');
+                    if(response.ok) {
+                        self._currentFormulaFunction.id = response.result;
+                        self.functions.push(self._currentFormulaFunction);
+                        self._functionsCollectionView.refresh();
+                    }
+                });
+
             }
         };
 
-        let subscriber= this.formulaFunctionView.submit.subscribe(popupCallback);
+       let subscriber= this.formulaFunctionView.submit.subscribe(popupCallback);
 
 
     }

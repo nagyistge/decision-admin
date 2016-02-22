@@ -1,6 +1,8 @@
 import set = Reflect.set;
-import {Input} from "angular2/core";
+import {Input,Output} from "angular2/core";
 import {Injectable} from "angular2/core";
+import {EventEmitter} from "angular2/core";
+
 
 @Injectable()
 export  class ComponentBase {
@@ -19,11 +21,14 @@ export  class ComponentBase {
     private _active : boolean;
     private _workingCount :number= 0;
     private _isWorking : boolean;
+    private _model : any;
 
-
-    @Input() name1:string;
-
-
+    public get model() : any {
+        return this._model;
+    }
+    public set model(v : any) {
+        this._model = v;
+    }
 
     public get isWorking() : boolean {
         return this._isWorking;
@@ -94,5 +99,19 @@ export  class ComponentBase {
     public init(){
 
     }
+
+    public clone(obj:any): any {
+        var cloneObj = new obj.constructor();
+        for (var attribut in obj) {
+            if (typeof obj[attribut] === "object") {
+                cloneObj[attribut] = this.clone(obj[attribut]);
+            } else {
+                cloneObj[attribut] = obj[attribut];
+            }
+        }
+        return cloneObj;
+    }
+
+    @Output() modelChanged = new EventEmitter();
 
 }
