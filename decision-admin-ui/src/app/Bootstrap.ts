@@ -8,7 +8,7 @@ import {PopupManager} from "./commons/PopupManager";
 import {ComponentRef} from "angular2/core";
 import {ElementRef} from "angular2/core";
 import {QueryList} from "angular2/core";
-import {FormulaFunctionView} from "./admin/FormulaFunctionView";
+import {SecurityService} from "./services/Security/SecurityService";
 
 
 
@@ -16,7 +16,7 @@ const APP_BINDINGS = [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS, 
     provide(LocationStrategy, { useClass: HashLocationStrategy }),
-    PopupManager,AdminService,ComponentRef,ElementRef,QueryList,FormulaFunctionView
+    PopupManager,AdminService,ComponentRef,ElementRef,QueryList,SecurityService
 ];
 //enableProdMode();
 bootstrap(AppComponent,APP_BINDINGS);

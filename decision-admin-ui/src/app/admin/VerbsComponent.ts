@@ -22,6 +22,7 @@ import {PopupHelper} from "../commons/PopupHelper";
 import {DecResponse} from "../services/commons/DecResponse";
 import {ResourceProviderFactory} from "../services/commons/ResourceProviderFactory";
 import CollectionView = wijmo.collections.CollectionView;
+import {SecurityService} from "../services/Security/SecurityService";
 
 
 
@@ -84,7 +85,7 @@ export class VerbsComponent extends ComponentBase{
         this._selectedVerb = v;
     }
 
-    constructor(private _resourceService:ResourceService){
+    constructor(private _resourceService:ResourceService,private _securityService:SecurityService){
         super();
         this.title='Verbs';
         this.init();

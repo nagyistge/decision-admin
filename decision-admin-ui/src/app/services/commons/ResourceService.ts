@@ -14,7 +14,7 @@ import {DecResponse} from "./DecResponse";
 @Injectable()
 export class ResourceService{
 
-    _url :string = "http://localhost:9080/ws/rs/app";
+    _url :string = "http://localhost:9080/ws/rs";
     _requestOptionsArgs:RequestOptionsArgs;
     _http:Http;
 

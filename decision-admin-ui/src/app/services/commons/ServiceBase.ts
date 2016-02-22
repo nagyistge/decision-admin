@@ -10,6 +10,8 @@ import {PopupManager} from "../../commons/PopupManager";
 import {Observable} from "rxjs/Observable";
 import {AppComponent} from "../../App";
 import {PopupHelper} from "../../commons/PopupHelper";
+import {DecResponse} from "./DecResponse";
+import {ConnectableObservable} from "rxjs/Rx";
 
 export class ServiceBase{
 
@@ -25,9 +27,49 @@ export class ServiceBase{
 
     }
 
+    interceptRequest(response, ignoreExceptions) :ConnectableObservable<DecResponse<any>> {
+        var _this = this;
+        var returnObservable = Observable.create(function (obsrv) {
+            var decResponse:DecResponse<any> = new DecResponse<any>();
+            response.subscribe(function (response) {
+                if(response.status != 204)
+                    decResponse.result= response.json();
 
+                decResponse.status = response.status;
+                decResponse.ok = response.ok;
+                decResponse.statusText= response.statusText;
+                decResponse.type = response.type;
 
-    private invoke(method:WebMethodEnum,url:String,searchParams:URLSearchParams,body:any,ignoreExceptions:boolean)
+                //TODO: check if the response if bdmsException - need to check this code!
+                if (_this.isBdmsException(response)) {
+                }
+                decResponse.ok = true;
+                //TODO: this is for testing the busy indicator,delete it when you done.
+                setTimeout(()=>{
+                    obsrv.next(decResponse);
+                },1000);
+                //obsrv.next(response);
+            }, function (errorResponse) {
+                if (!ignoreExceptions || ignoreExceptions == false) {
+                    PopupHelper.showError('There is unexpected error from the server,please check your connection.');
+                }
+                decResponse.status = errorResponse.status;
+                decResponse.ok = errorResponse.ok;
+                decResponse.statusText= errorResponse.statusText;
+                decResponse.type = errorResponse.type;
+
+                //TODO: this is for testing the busy indicator,delete it when you done.
+                setTimeout(()=>{
+                    obsrv.next(decResponse);
+                },1000);
+                //obsrv.next(errorResponse);
+            });
+
+        });
+        return returnObservable.publish().connect();
+    };
+
+    private invoke(method:WebMethodEnum,url:String,searchParams:URLSearchParams,body:any,ignoreExceptions:boolean):Observable<DecResponse<any>>
     {
         let self = this;
         this._requestOptionsArgs.search=searchParams;
@@ -52,22 +94,9 @@ export class ServiceBase{
                 break;
             default:
                 throw new Error("web method " + method + " not supported");
-
         }
-        let returnObservable = Observable.create(function (obsrv) {
-            response.subscribe(function (response) {
-                //TODO: check if the response if bdmsException - need to check this code!
-                if (this.isBdmsException(response)) {
-                }
-                obsrv.next(response);
-            }, function (errorResponse) {
-                if (!ignoreExceptions || ignoreExceptions == false) {
-                    PopupHelper.showError('There is unexpected error from the server,please check your connection.');
-                }
-                obsrv.next(errorResponse);
-            });
-        });
-        return returnObservable;
+
+        return this.interceptRequest(response, ignoreExceptions);
     }
 
     isBdmsException(response) {
