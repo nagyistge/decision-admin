@@ -6,19 +6,21 @@ import {Headers} from "angular2/http";
 import {RequestOptionsArgs} from "angular2/http";
 import {WebMethodEnum} from "./WebMethodEnum";
 import {Response} from "angular2/http";
-import {PopupManager} from "../../commons/PopupManager";
 import {Observable} from "rxjs/Observable";
 import {AppComponent} from "../../App";
 import {PopupHelper} from "../../commons/PopupHelper";
 import {DecResponse} from "./DecResponse";
 import {ConnectableObservable} from "rxjs/Rx";
+import {Injector} from "angular2/core";
 
 export class ServiceBase{
 
-    _url :string = "http://localhost:9080/ws/rs/administration";
+    _url :string = "http://localhost:9080/ws/rs/";
     _requestOptionsArgs:RequestOptionsArgs;
+    _http:Http;
 
-    constructor(private _http:Http,private _popupManager:PopupManager){
+    constructor(){
+        this._http = Injector.resolveAndCreate([Http]).get(Http);
         this._requestOptionsArgs = <RequestOptionsArgs>{};
         this._requestOptionsArgs.headers = new Headers();
         this._requestOptionsArgs.headers.append( 'Content-Type', 'application/json');
@@ -27,7 +29,7 @@ export class ServiceBase{
 
     }
 
-    interceptRequest(response, ignoreExceptions) :ConnectableObservable<DecResponse<any>> {
+    private interceptRequest(response, ignoreExceptions) :ConnectableObservable<DecResponse<any>> {
         var _this = this;
         var returnObservable = Observable.create(function (obsrv) {
             var decResponse:DecResponse<any> = new DecResponse<any>();
@@ -69,6 +71,11 @@ export class ServiceBase{
         return returnObservable.publish().connect();
     };
 
+    public post(url:string,searchParams:URLSearchParams,body:any,ignoreExceptions:boolean)
+    {
+        this.invoke(WebMethodEnum.POST,url,searchParams,body,ignoreExceptions);
+    }
+
     private invoke(method:WebMethodEnum,url:String,searchParams:URLSearchParams,body:any,ignoreExceptions:boolean):Observable<DecResponse<any>>
     {
         let self = this;
@@ -99,7 +106,7 @@ export class ServiceBase{
         return this.interceptRequest(response, ignoreExceptions);
     }
 
-    isBdmsException(response) {
+    private isBdmsException(response) {
         if (response.json().constructor == {}.constructor)
             return true;
         else

@@ -80,7 +80,6 @@ import {Subscriber} from "rxjs/Subscriber";
 export class FormulaFunctionsComponent extends ComponentBase{
 
     private _functions : Array<Function>;
-
     private _functionsCollectionView:CollectionView;
 
     public get functions() : Array<Function> {
@@ -152,8 +151,6 @@ export class FormulaFunctionsComponent extends ComponentBase{
         });
     }
 
-
-
     private editFormulaFunction(formulaFunction:Function[],popup:Popup)
     {
         this._currentFormulaFunction= this.clone(formulaFunction[0]);
@@ -182,8 +179,6 @@ export class FormulaFunctionsComponent extends ComponentBase{
 
     }
 
-
-
     private addFormulaFunction(popup:Popup){
         this._currentFormulaFunction= <Function>{};
         this._currentFormulaFunction.arguments=[];
@@ -211,9 +206,7 @@ export class FormulaFunctionsComponent extends ComponentBase{
 
        let subscriber= this.formulaFunctionView.submit.subscribe(popupCallback);
 
-
     }
-
 
 }
 

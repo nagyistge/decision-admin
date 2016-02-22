@@ -14,9 +14,9 @@ import {DecResponse} from "./DecResponse";
 @Injectable()
 export class ResourceService{
 
-    _url :string = "http://localhost:9080/ws/rs";
-    _requestOptionsArgs:RequestOptionsArgs;
-    _http:Http;
+    private _url :string = "http://localhost:9080/ws/rs";
+    private _requestOptionsArgs:RequestOptionsArgs;
+    private _http:Http;
 
     constructor(private _resourceName:string){
         this._http = Injector.resolveAndCreate([Http,HTTP_PROVIDERS]).get(Http);
@@ -28,7 +28,7 @@ export class ResourceService{
 
     }
 
-    interceptRequest(response, ignoreExceptions) :ConnectableObservable<DecResponse<any>> {
+    private interceptRequest(response, ignoreExceptions) :ConnectableObservable<DecResponse<any>> {
         var _this = this;
         var returnObservable = Observable.create(function (obsrv) {
         var decResponse:DecResponse<any> = new DecResponse<any>();
@@ -70,7 +70,7 @@ export class ResourceService{
         return returnObservable.publish().connect();
     };
 
-    isBdmsException = function (response) {
+    private isBdmsException = function (response) {
         if (response.body && response.json().constructor == {}.constructor)
             return true;
         else
