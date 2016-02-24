@@ -1,7 +1,7 @@
 import { Component } from 'angular2/core';
 import {NgFor} from "angular2/common";
-import {TabControl} from "../userControls/TabControl";
-import {Tab} from "../userControls/Tab";
+import {TabControl} from "../../userControls/TabControl";
+import {Tab} from "../../userControls/Tab";
 import {ViewsComponent}  from "./ViewsComponent";
 import {VerbsComponent}  from "./VerbsComponent";
 import {FormulaFunctionsComponent}  from "./FormulaFunctionsComponent";
@@ -12,7 +12,7 @@ import {FormulaFunctionsComponent}  from "./FormulaFunctionsComponent";
     template:`
 
     <div >
-        <tabs >
+        <tab-control >
 
           <tab tabTitle="verb"  >
             <verbs-settings></verbs-settings>
@@ -24,7 +24,7 @@ import {FormulaFunctionsComponent}  from "./FormulaFunctionsComponent";
             <formula-functions-settings></formula-functions-settings>
           </tab>
 
-        </tabs>
+        </tab-control>
 
      </div>
   `,

@@ -11,7 +11,7 @@ export class SecurityService{
     constructor(){
         this._resourceService = Injector.resolveAndCreate( [ResourceService,ResourceProviderFactory.UserServiceProvider]).get(ResourceService);
 
-        this.loginCurrentUser();
+      //  this.loginCurrentUser();
     }
 
     public loginCurrentUser(){

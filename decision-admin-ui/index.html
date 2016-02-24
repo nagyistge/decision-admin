@@ -2,9 +2,11 @@
 <head>
 
     <title>Admin App</title>
-
+    <link rel="stylesheet/less" type="text/css" href=./src/less/styles.less />
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./src/css/styles.css">
+    <script src="node_modules/less/dist/less.js" type="text/javascript"></script>
+
     <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
     <script src="node_modules/systemjs/dist/system.js"></script>
     <script src="src/infra/config.js"></script>
@@ -27,11 +29,8 @@
 
 
 </head>
-<body id="body">
-
+<body id="body"  >
     <app>Loading ...</app>
-    
-
 <script>
         System.import('src/app/Bootstrap');
     </script>

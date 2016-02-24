@@ -45,11 +45,7 @@ export class ResourceService{
                 if (_this.isBdmsException(response)) {
                 }
                 decResponse.ok = true;
-                //TODO: this is for testing the busy indicator,delete it when you done.
-                setTimeout(()=>{
-                    obsrv.next(decResponse);
-                },1000);
-                //obsrv.next(response);
+                obsrv.next(decResponse);
             }, function (errorResponse) {
                 if (!ignoreExceptions || ignoreExceptions == false) {
                     PopupHelper.showError('There is unexpected error from the server,please check your connection.');
@@ -58,12 +54,7 @@ export class ResourceService{
                 decResponse.ok = errorResponse.ok;
                 decResponse.statusText= errorResponse.statusText;
                 decResponse.type = errorResponse.type;
-
-                //TODO: this is for testing the busy indicator,delete it when you done.
-                setTimeout(()=>{
-                    obsrv.next(decResponse);
-                },1000);
-                //obsrv.next(errorResponse);
+                obsrv.next(decResponse);
             });
 
         });
