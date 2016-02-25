@@ -48,6 +48,7 @@ export class AppComponent {
         this.routes.push(security);
         let community = new Route("/Community","Community");
         this.routes.push(community);
+        this.routes[0].selected=true;
     }
 
     private select(route){

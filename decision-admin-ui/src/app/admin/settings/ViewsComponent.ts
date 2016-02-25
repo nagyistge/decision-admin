@@ -31,8 +31,8 @@ import CollectionView = wijmo.collections.CollectionView;
     providers:[ResourceProviderFactory.ViewsServiceProvider],
     directives:[wjNg2Input.WjListBox,wjNg2Input.WjItemTemplate,wjNg2Input.WjPopup,BusyIndicator],
     template: `
+
     <div style="margin-left: 10px">
-    <div>
             <div >
                     <h3> Views </h3>
                     <input #newView type="text" style="width: 255px">

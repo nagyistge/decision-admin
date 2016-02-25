@@ -24,46 +24,44 @@ import {ResourceProviderFactory} from "../../services/commons/ResourceProviderFa
 import CollectionView = wijmo.collections.CollectionView;
 import {SecurityService} from "../../services/Security/SecurityService";
 
-
-
 @Component({
 
     selector: 'verbs-settings',
     providers:[ResourceProviderFactory.VerbsServiceProvider],
     directives:[wjNg2Input.WjListBox,wjNg2Input.WjItemTemplate,wjNg2Input.WjPopup,BusyIndicator],
     template: `
-    <div style="margin-left: 10px" >
-    <div >
-            <div >
-                    <h3> Verbs </h3>
-                    <input #newVerb type="text" style="width: 255px">
-                    <button (click)="addVerb(newVerb.value)">Add</button>
-            </div>
-            <busy-indicator [busy]="isWorking" [title]="'please wait'" style="width:300px;flex-grow: 1;position: relative;height: 500px;margin-top: 10px">
-                <wj-list-box #verbs_listbox  style="position: absolute;width:inherit; height:100%;margin-top: 10px"
-                               [selectedValue]="selectedVerb"  [itemsSource]="_verbsCollectionView" >
-                    <template wjItemTemplate #item="item" #itemIndex="itemIndex">
-                       <div style="display: flex;flex-direction:row" >
-                             <h7 style="flex-grow:1">{{item.name}}</h7>
-                             <div *ngIf="verbs_listbox.selectedValue && verbs_listbox.selectedValue.id==item.id">
-                                 <img  class="dec-icon" src="src/app/icons/delete.png" (click)="deleteVerb(item.id)">
-                                 <img  class="dec-icon" src="src/app/icons/edit.png"   [attr.id]="'b'+item.id">
-                                 <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
-                                   <span>Edit value:</span>
-                                   <input type="text" [value]="item.name" #valueBox>
-                                   <button class="wj-hide" (click)="editVerb(item,valueBox.value)">OK</button>
-                                   <button class="wj-hide">Cancel</button>
-                                </wj-popup>
-                             </div>
 
-                       </div>
-                    </template>
-                </wj-list-box>
-            </busy-indicator>
+    <div style="margin-left: 10px" >
+        <div >
+                <h3> Verbs </h3>
+                <input #newVerb type="text" style="width: 255px">
+                <button (click)="addVerb(newVerb.value)">Add</button>
+        </div>
+        <busy-indicator [busy]="isWorking" [title]="'please wait'" style="width:300px;flex-grow: 1;position: relative;height: 500px;margin-top: 10px">
+            <wj-list-box #verbs_listbox  style="position: absolute;width:inherit; height:100%;margin-top: 10px"
+                           [selectedValue]="selectedVerb"  [itemsSource]="_verbsCollectionView" >
+                <template wjItemTemplate #item="item" #itemIndex="itemIndex">
+                   <div style="display: flex;flex-direction:row" >
+                         <h7 style="flex-grow:1">{{item.name}}</h7>
+                         <div *ngIf="verbs_listbox.selectedValue && verbs_listbox.selectedValue.id==item.id">
+                             <img  class="dec-icon" src="src/app/icons/delete.png" (click)="deleteVerb(item.id)">
+                             <img  class="dec-icon" src="src/app/icons/edit.png"   [attr.id]="'b'+item.id">
+                             <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
+                               <span>Edit value:</span>
+                               <input type="text" [value]="item.name" #valueBox>
+                               <button class="wj-hide" (click)="editVerb(item,valueBox.value)">OK</button>
+                               <button class="wj-hide">Cancel</button>
+                            </wj-popup>
+                         </div>
+
+                   </div>
+                </template>
+            </wj-list-box>
+        </busy-indicator>
     </div>
     `
 })
-export class VerbsComponent extends ComponentBase{
+export class VerbsComponent extends ComponentBase {
 
     private _verbs : Array<Verb> = [];
     private _verbsCollectionView:CollectionView;
@@ -108,9 +106,7 @@ export class VerbsComponent extends ComponentBase{
         });
     }
 
-
-    private editVerb(selectedItem:Verb,val:string)
-    {
+    private editVerb(selectedItem:Verb,val:string){
         let temp = <Verb>{};
         temp.name=val;
         temp.id = selectedItem.id;
