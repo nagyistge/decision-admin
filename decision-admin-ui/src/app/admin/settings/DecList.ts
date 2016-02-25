@@ -1,23 +1,26 @@
 import {Component} from "angular2/core";
-import {wjNg2Grid} from '../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid';
+import {Input} from "angular2/core";
+import {ContentChild} from "angular2/core";
+import {wjNg2Grid} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid";
+import {wjNg2Input} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
+import CollectionView = wijmo.collections.CollectionView;
+import "../../../../node_modules/rxjs/Rx";
+import SelectionMode = wijmo.grid.SelectionMode;
 
 @Component({
-    directives:[wjNg2Grid.WjFlexGrid],
+    directives:[wjNg2Grid.WjFlexGrid, wjNg2Grid.WjFlexGridColumn, wjNg2Grid.WjFlexGridCellTemplate],
     selector:'dec-list',
     template:
     `
-    <div>
         <div>
-            <h4>{{header}}</h4>
-            <h4>({{count}})</h4>
-            <input [ngModel]="searchText">
+            <div style="margin-top:10px">
+                <label>{{header}} ({{itemsSource?.items?.length}})</label>
+                <input [(ngModel)]="searchText">
+            </div>
+            <div style="margin-top: 5px">
+                <ng-content></ng-content>
+            </div>
         </div>
-        <div>
-            <wj-flex-grid [itemsSource]="itemsSource">
-            </wj-flex-grid>
-        </div>
-
-    </div>
 
 `
 })
@@ -25,17 +28,22 @@ export class DecList{
 
 constructor(){
 
-    this.header="bla";
+    this.header="Tests";
     this.count=11;
-}
-            private _itemsSource : any[];
+    this.thisFilterFunction = this.filterFunction.bind(this);
 
-                public get itemsSource() : any[] {
-                    return this._itemsSource;
-                }
-                public set itemsSource(v : any[]) {
-                    this._itemsSource = v;
-                }
+}
+    @ContentChild('grid') wjFlexGrid :any;
+
+    ngAfterContentInit() {
+        this.itemsSource=this.wjFlexGrid.itemsSource;
+        this.selectedValue = this.wjFlexGrid.selectedValue;
+        this.wjFlexGrid.selectionMode = <SelectionMode>SelectionMode.ListBox;
+    }
+
+
+      @Input() selectedValue : any;
+      @Input()  itemsSource : CollectionView;
 
         private _header : string;
 
@@ -54,5 +62,77 @@ constructor(){
             public set count(v : number) {
                 this._count = v;
             }
+
+        private _searchText : string;
+
+            public get searchText() : string {
+                return this._searchText;
+            }
+            public set searchText(v : string) {
+                this._searchText = v;
+                this.applySelection();
+                //this.applyFilter();
+            }
+
+    private toFilter:any;
+    private thisFilterFunction: wijmo.collections.IPredicate;
+
+    private filterFunction(item) {
+        var f = this.searchText;
+        if (f && item) {
+
+            // split string into terms to enable multi-field searches such as 'us gadget red'
+            var terms = f.toUpperCase().split(' ');
+
+            // look for any term in any string field
+            for (var i = 0; i < terms.length; i++) {
+                var termFound = false;
+                for (var key in item) {
+                    var value = item[key];
+                    if (wijmo.isString(value) && value.toUpperCase().indexOf(terms[i]) > -1) {
+                        termFound = true;
+                        break;
+                    }
+                }
+
+                // fail if any of the terms is not found
+                if (!termFound) {
+                    return false;
+                }
+            }
+        }
+
+        // include item in view
+        return true;
+    }
+
+    private applyFilter() {
+        if (this.toFilter) {
+            clearTimeout(this.toFilter);
+        }
+        var self = this;
+        this.toFilter = setTimeout(function () {
+            self.toFilter = null;
+                var cv = self.itemsSource;
+                if (cv) {
+                    if (cv.filter != self.thisFilterFunction) {
+                        cv.filter = self.thisFilterFunction;
+                    } else {
+                        cv.refresh();
+                    }
+                }
+        }, 200);
+    }
+
+
+    private applySelection() {
+
+        if (this.wjFlexGrid) {
+            this.wjFlexGrid.selectedItems= this.itemsSource.items.filter((item)=>item.name.indexOf(this.searchText)> -1);
+            } else {
+                this.itemsSource.refresh();
+            }
+    }
+
 }
 

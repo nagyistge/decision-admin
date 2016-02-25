@@ -6,17 +6,18 @@ import {ViewsComponent}  from "./ViewsComponent";
 import {VerbsComponent}  from "./VerbsComponent";
 import {FormulaFunctionsComponent}  from "./FormulaFunctionsComponent";
 import {DecList} from "./DecList";
+import {TestList} from "./TestList";
 
 @Component({
     selector: 'administration-settings',
-    directives:[TabControl,Tab,ViewsComponent,VerbsComponent,FormulaFunctionsComponent,NgFor,DecList],
+    directives:[TabControl,Tab,ViewsComponent,VerbsComponent,FormulaFunctionsComponent,NgFor,TestList],
     template:`
 
-    <div >
+     <div >
         <tab-control >
 
         <tab  tabTitle="test" >
-            <dev-list></dev-list>
+            <tests></tests>
         </tab>
           <tab tabTitle="verb"  >
             <verbs-settings></verbs-settings>
