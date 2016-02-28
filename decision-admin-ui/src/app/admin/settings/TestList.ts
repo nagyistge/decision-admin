@@ -25,6 +25,7 @@ import CollectionView = wijmo.collections.CollectionView;
 import {SecurityService} from "../../services/Security/SecurityService";
 import {DecList} from "./DecList";
 import {wjNg2Grid} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid";
+import SelectionMode = wijmo.grid.SelectionMode;
 
 @Component({
 
@@ -43,11 +44,11 @@ import {wjNg2Grid} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.gr
                                                    (cellEditEnded)="onEditEnded($event)"
                                                    (rowAdded)="onRowAdded($event)" >
                     <wj-flex-grid-column [width]="'*'"  [header]="'Name'"  [binding]="'name'" ></wj-flex-grid-column>
-                    <wj-menu #ctxMenu style="display:none" (itemClicked)="contextMenuItemClicked(ctxMenu, $event)">
-                        <wj-menu-item [value]="'Add'">Add</wj-menu-item>
-                        <wj-menu-item [value]="'Delete'">Delete</wj-menu-item>
-                        <wj-menu-item [value]="'Edit'">Edit</wj-menu-item>
-                        <wj-menu-item [value]="'Duplicate'">Duplicate</wj-menu-item>
+                    <wj-menu #ctxMenu style="display:none" >
+                        <wj-menu-item (click)="menuActionClicked('add')" [value]="'Add'">Add</wj-menu-item>
+                        <wj-menu-item (click)="menuActionClicked('delete')" [value]="'Delete'">Delete</wj-menu-item>
+                        <wj-menu-item (click)="menuActionClicked('edit')" [value]="'Edit'">Edit</wj-menu-item>
+                        <wj-menu-item (click)="menuActionClicked('duplicate')" [value]="'Duplicate'">Duplicate</wj-menu-item>
                     </wj-menu>
                </wj-flex-grid>
 
@@ -72,10 +73,6 @@ export class TestList  {
         this.init();
     }
 
-    private onEditEnded(event){
-        //handle cell chagnes
-    }
-
     private onRowAdded(event){
         let newVerb = <Verb>this._verbs[this._verbs.length-1];
         newVerb.name="new verb";
@@ -93,7 +90,8 @@ export class TestList  {
     }
 
 
-    public contextMenuItemClicked(menu4, event){
+    public contextMenuItemClicked(menu4, event)
+    {
         console.log(event);
     }
 }

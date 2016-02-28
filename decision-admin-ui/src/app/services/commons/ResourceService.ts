@@ -43,6 +43,9 @@ export class ResourceService{
 
                 //TODO: check if the response if bdmsException - need to check this code!
                 if (_this.isBdmsException(response)) {
+                    if (!ignoreExceptions || ignoreExceptions == false) {
+                        PopupHelper.showError(decResponse.errorMessage);
+                    }
                 }
                 decResponse.ok = true;
                 obsrv.next(decResponse);

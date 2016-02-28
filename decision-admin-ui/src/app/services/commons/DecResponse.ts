@@ -7,4 +7,5 @@ export class DecResponse<T> {
     status: number;
     statusText: string;
     result:T;
+    errorMessage:string;
 }
