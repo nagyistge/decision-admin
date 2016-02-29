@@ -24,7 +24,7 @@ import {ResourceProviderFactory} from "../../services/commons/ResourceProviderFa
 import CollectionView = wijmo.collections.CollectionView;
 import {SecurityService} from "../../services/Security/SecurityService";
 import {wjNg2Grid} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid";
-import {DecList} from "./DecList";
+import {DecList} from "./test/DecList";
 import SelectionMode = wijmo.grid.SelectionMode;
 import {Tab} from "../../userControls/Tab";
 import {Host} from "angular2/core";

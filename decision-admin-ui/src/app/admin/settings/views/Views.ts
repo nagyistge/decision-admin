@@ -1,26 +1,26 @@
 import {bootstrap} from "angular2/platform/browser";
 import {Component} from 'angular2/core';
-import {ComponentBase} from "../../commons/ComponentBase";
-import {AdminService} from "../../services/Admin/AdminService";
+import {ComponentBase} from "../../../commons/ComponentBase";
+import {AdminService} from "../../../services/Admin/AdminService";
 import {Response} from "angular2/http";
-import {FakeAdminService} from "../../services/Admin/FakeAdminService";
+import {FakeAdminService} from "../../../services/Admin/FakeAdminService";
 import {provide} from "angular2/core";
-import {wjNg2Input} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
-import {ResourceService} from "../../services/commons/ResourceService";
-import {Observable} from "rxjs/Observable";
-import {View} from "../../../data/wsdl_types";
+import {wjNg2Input} from "../../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
+import {ResourceService} from "../../../services/commons/ResourceService";
+import {Observable} from "../../../../../node_modules/rxjs/Observable";
+import {View} from "../../../../data/wsdl_types";
 import Popup = wijmo.input.Popup;
 import PopupTrigger = wijmo.input.PopupTrigger;
 import CancelEventArgs = wijmo.CancelEventArgs;
-import {PopupManager} from "../../commons/PopupManager";
+import {PopupManager} from "../../../commons/PopupManager";
 import {Injector} from "angular2/core";
-import {BusyIndicator} from "../../commons/BusyIndicator";
-import {AppComponent} from "../../App";
+import {BusyIndicator} from "../../../commons/BusyIndicator";
+import {AppComponent} from "../../../App";
 import {ViewChild} from "angular2/core";
 import ListBox = wijmo.input.ListBox;
-import {PopupHelper} from "../../commons/PopupHelper";
-import {DecResponse} from "../../services/commons/DecResponse";
-import {ResourceProviderFactory} from "../../services/commons/ResourceProviderFactory";
+import {PopupHelper} from "../../../commons/PopupHelper";
+import {DecResponse} from "../../../services/commons/DecResponse";
+import {ResourceProviderFactory} from "../../../services/commons/ResourceProviderFactory";
 import CollectionView = wijmo.collections.CollectionView;
 
 
@@ -30,15 +30,16 @@ import CollectionView = wijmo.collections.CollectionView;
     selector: 'views-settings',
     providers:[ResourceProviderFactory.ViewsServiceProvider],
     directives:[wjNg2Input.WjListBox,wjNg2Input.WjItemTemplate,wjNg2Input.WjPopup,BusyIndicator],
+    styleUrls: ['./src/app/admin/settings/views/Views.css'],
     template: `
 
-    <div style="margin-left: 10px">
+    <div class="cmp-main">
             <div >
                     <h3> Views </h3>
-                    <input #newView type="text" style="width: 255px">
+                    <input #newView type="text" >
                     <button (click)="addView(newView.value)">Add</button>
             </div>
-            <busy-indicator [busy]="isWorking" [title]="'please wait'" style="width:300px;flex-grow: 1;position: relative;height: 500px">
+            <busy-indicator [busy]="isWorking" [title]="'please wait'" >
                 <wj-list-box #views_listbox  style="position: absolute;width:inherit; height:100%;margin-top: 10px"
                                [selectedValue]="selectedView"  [itemsSource]="_viewsCollectionView" >
                     <template wjItemTemplate #item="item" #itemIndex="itemIndex">
@@ -64,7 +65,7 @@ import CollectionView = wijmo.collections.CollectionView;
 
     `
 })
-export class ViewsComponent extends ComponentBase{
+export class Views extends ComponentBase{
 
     private _views : Array<View> = [];
     private _viewsCollectionView:CollectionView;

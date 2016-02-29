@@ -1,7 +1,7 @@
 ﻿import {bootstrap} from 'angular2/platform/browser';
 import {Component} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
-import {AdministrationSettingsComponent} from "./admin/settings/AdministrationSettings";
+import {AdministrationSettingsComponent} from "./admin/settings/administrationSettings/AdministrationSettings";
 import {ViewChild} from "angular2/core";
 import {CommunitySettingsComponent} from "./admin/community/CommunitySettings";
 import {SecuritySettingsComponent} from "./admin/security/SecuritySettings";

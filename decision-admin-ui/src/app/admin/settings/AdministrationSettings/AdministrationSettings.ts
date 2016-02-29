@@ -1,16 +1,16 @@
 import { Component } from 'angular2/core';
 import {NgFor} from "angular2/common";
-import {TabControl} from "../../userControls/TabControl";
-import {Tab} from "../../userControls/Tab";
-import {ViewsComponent}  from "./ViewsComponent";
-import {VerbsComponent}  from "./VerbsComponent";
-import {FormulaFunctionsComponent}  from "./FormulaFunctionsComponent";
-import {DecList} from "./DecList";
-import {TestList} from "./TestList";
+import {TabControl} from "../../../userControls/TabControl";
+import {Tab} from "../../../userControls/Tab";
+import {Views}  from "./../views/Views";
+import {VerbsComponent}  from "./../VerbsComponent";
+import {FormulaFunctionsComponent}  from "./../FormulaFunctionsComponent";
+import {DecList} from "./../test/DecList";
+import {TestList} from "./../test/TestList";
 
 @Component({
     selector: 'administration-settings',
-    directives:[TabControl,Tab,ViewsComponent,VerbsComponent,FormulaFunctionsComponent,NgFor,TestList],
+    directives:[TabControl,Tab,Views,VerbsComponent,FormulaFunctionsComponent,NgFor,TestList],
     template:`
 
      <div class="tab-content">

@@ -1,18 +1,19 @@
 import {Component} from "angular2/core";
 import {Input} from "angular2/core";
 import {ContentChild} from "angular2/core";
-import {wjNg2Grid} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid";
-import {wjNg2Input} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
+import {wjNg2Grid} from "../../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid";
+import {wjNg2Input} from "../../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
 import CollectionView = wijmo.collections.CollectionView;
-import "../../../../node_modules/rxjs/Rx";
+import "rxjs/Rx";
 import SelectionMode = wijmo.grid.SelectionMode;
 
 @Component({
     directives:[wjNg2Grid.WjFlexGrid, wjNg2Grid.WjFlexGridColumn, wjNg2Grid.WjFlexGridCellTemplate],
     selector:'dec-list',
+    styleUrls: ['./src/app/admin/settings/test/DecList.css'],
     template:
     `
-        <div class="block">
+        <div class="block" class="cmp-main">
             <div >
                 <label>{{header}} ({{itemsSource?.items?.length}})</label>
                 <input [(ngModel)]="searchText">
