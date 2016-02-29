@@ -9,14 +9,14 @@ import {QueryList} from "angular2/core";
 @Component({
     selector: 'tab-control',
     template: `
-    <ul class="nav nav-tabs" >
+    <ul class="app-tabs" >
       <li *ngFor="#tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
         <a>
             <h5 >{{tab.tabTitle}}</h5>
         </a>
       </li>
     </ul>
-    <div  id="content" >
+    <div  id="content" class="tab-content" >
         <ng-content></ng-content>
     </div>
   `,

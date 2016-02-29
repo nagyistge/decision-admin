@@ -19,10 +19,11 @@ import {SecuritySettingsComponent} from "./admin/security/SecuritySettings";
     selector: 'app',
     template: `
 
-    <div>
-        <h1>Decision Admin</h1>
+    <div >
+        <div class="container-fluid header">
+            <h1>Decision Admin</h1>
+        </div>
         <nav class="navbar navbar-default">
-        <div class="container-fluid">
          <div class="navbar-collapse">
           <ul class="nav navbar-nav" >
               <li (click)="select(route)" [ngClass]="{active: route?.selected}"  *ngFor="#route of routes">
@@ -30,9 +31,8 @@ import {SecuritySettingsComponent} from "./admin/security/SecuritySettings";
               </li>
           </ul>
           </div>
-        </div>
         </nav>
-        <main style="margin-top: 20px;height: 800px">
+        <main class="container-fluid main-content">
             <router-outlet></router-outlet>
         </main>
     </div>

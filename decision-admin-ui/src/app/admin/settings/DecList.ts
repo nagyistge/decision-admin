@@ -12,12 +12,12 @@ import SelectionMode = wijmo.grid.SelectionMode;
     selector:'dec-list',
     template:
     `
-        <div>
-            <div style="margin-top:10px">
+        <div class="block">
+            <div >
                 <label>{{header}} ({{itemsSource?.items?.length}})</label>
                 <input [(ngModel)]="searchText">
             </div>
-            <div style="margin-top: 5px">
+            <div >
                 <ng-content></ng-content>
             </div>
         </div>

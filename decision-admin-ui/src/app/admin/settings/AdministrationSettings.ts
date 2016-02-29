@@ -13,9 +13,8 @@ import {TestList} from "./TestList";
     directives:[TabControl,Tab,ViewsComponent,VerbsComponent,FormulaFunctionsComponent,NgFor,TestList],
     template:`
 
-     <div >
+     <div class="tab-content">
         <tab-control >
-
         <tab  tabTitle="test" >
             <tests></tests>
         </tab>

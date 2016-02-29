@@ -34,7 +34,8 @@ import {Host} from "angular2/core";
     selector: 'verbs-settings',
     providers:[ResourceProviderFactory.VerbsServiceProvider],
     directives:[wjNg2Input.WjListBox,wjNg2Input.WjItemTemplate,wjNg2Input.WjPopup,BusyIndicator,DecList,wjNg2Grid.WjFlexGrid,
-        wjNg2Grid.WjFlexGridColumn, wjNg2Grid.WjFlexGridCellTemplate,wjNg2Input.WjContextMenu,wjNg2Input.WjMenu,wjNg2Input.WjMenuItem,wjNg2Input.WjPopup,BusyIndicator],
+        wjNg2Grid.WjFlexGridColumn, wjNg2Grid.WjFlexGridCellTemplate,wjNg2Input.WjContextMenu,wjNg2Input.WjMenu,wjNg2Input.WjMenuItem,
+        wjNg2Input.WjPopup,BusyIndicator],
     template: `
 
     <div style="margin-left: 10px" >
@@ -55,7 +56,7 @@ import {Host} from "angular2/core";
              <wj-flex-grid style="width: 250px"  #grid
                                                    [headersVisibility]="'None'"
                                                    (selectionChanged)="selectionChanged(grid.selectedItems)"
-                                                   [(selectedItems)]="selectedVerbs"
+                                                   [selectedItems]="selectedVerbs"
                                                    [isReadOnly]="true"
                                                    [(itemsSource)]="_verbsCollectionView">
                     <wj-flex-grid-column [width]="'*'"  [header]="'Name'"  [binding]="'name'" >
@@ -112,7 +113,7 @@ export class VerbsComponent extends ComponentBase {
     }
     public set searchText(v : string) {
         this._searchText = v;
-        this.applySelection();
+        this.applySelection(this.searchText);
         //this.applyFilter();
     }
 
@@ -173,6 +174,7 @@ export class VerbsComponent extends ComponentBase {
             if (response.ok) {
                 self.verbs = response.result;
                 self._verbsCollectionView = new CollectionView(self.verbs);
+                self.selectedVerbs = [self.verbs[0]];
             }
         });
     }
@@ -211,6 +213,7 @@ export class VerbsComponent extends ComponentBase {
                 _verb.name = verb;
                 self._verbs.push(_verb);
                 self._verbsCollectionView.refresh();
+                self.applySelection(_verb.name);
             }
         });
 
@@ -236,12 +239,13 @@ export class VerbsComponent extends ComponentBase {
 
     }
 
-    private applySelection() {
+    private applySelection(value:string) {
 
         if (this.wjFlexGrid) {
-            let filtered = this._verbsCollectionView.items.filter((item)=>item.name.indexOf(this.searchText)> -1);
+            let filtered = this._verbsCollectionView.items.filter((item)=>item.name.indexOf(value)> -1);
 
-            if((filtered.length != this.wjFlexGrid.itemsSource.items.length)){
+            if((filtered.length != this._verbsCollectionView.items.length))
+            {
                 this.wjFlexGrid.selectedItems= filtered;
             }
             else {

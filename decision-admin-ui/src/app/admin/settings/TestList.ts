@@ -34,9 +34,9 @@ import SelectionMode = wijmo.grid.SelectionMode;
                 wjNg2Grid.WjFlexGridColumn, wjNg2Grid.WjFlexGridCellTemplate,wjNg2Input.WjContextMenu,wjNg2Input.WjMenu,wjNg2Input.WjMenuItem],
     template: `
 
-    <div style="margin-left: 10px" >
+    <div class="block" >
             <dec-list >
-               <wj-flex-grid style="width: 250px"  [wjContextMenu]="ctxMenu"
+               <wj-flex-grid class="test-content"  [wjContextMenu]="ctxMenu"
                                              #grid [allowAddNew]="true"
                                                    [headersVisibility]="'None'"
                                                    [selectedValue]="selectedVerb"
