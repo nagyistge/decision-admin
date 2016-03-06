@@ -1,14 +1,14 @@
 import {Component} from "angular2/core";
-import {wjNg2Grid} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid";
-import {ComponentBase} from "../../commons/ComponentBase";
+import {wjNg2Grid} from "../../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid";
+import {ComponentBase} from "../../../commons/ComponentBase";
 import {Output} from "angular2/core";
 import {EventEmitter} from "angular2/core";
 import {Input} from "angular2/core";
 import {Observable} from "rxjs/Observable";
-import {Function,AbstractEntity} from "../../../data/wsdl_types";
-import {PrimitiveDataType} from "../../../data/wsdl_types";
+import {Function,AbstractEntity} from "../../../../data/wsdl_types";
+import {PrimitiveDataType} from "../../../../data/wsdl_types";
 import CollectionView = wijmo.collections.CollectionView;
-import {wjNg2Input} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
+import {wjNg2Input} from "../../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
 import {NgModel} from "angular2/common";
 
 @Component({
@@ -62,7 +62,7 @@ import {NgModel} from "angular2/common";
 
     `
 })
-export class FormulaFunctionView extends ComponentBase{
+export class FormulaFunction extends ComponentBase{
 
     private formulaTargetTypeList : CollectionView;
     private argumentsTargetTypeList : CollectionView;

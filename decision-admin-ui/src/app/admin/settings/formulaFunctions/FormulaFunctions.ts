@@ -1,44 +1,44 @@
 import {bootstrap} from "angular2/platform/browser";
 import {Component} from 'angular2/core';
-import {ComponentBase} from "../../commons/ComponentBase";
-import {AdminService} from "../../services/Admin/AdminService";
+import {ComponentBase} from "../../../commons/ComponentBase";
+import {AdminService} from "../../../services/Admin/AdminService";
 import {Response} from "angular2/http";
-import {FakeAdminService} from "../../services/Admin/FakeAdminService";
+import {FakeAdminService} from "../../../services/Admin/FakeAdminService";
 import {provide} from "angular2/core";
-import {IdName} from "../../../data/wsdl_types";
-import {Formula} from "../../../data/wsdl_types";
-import {wjNg2Grid} from '../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid';
+import {IdName} from "../../../../data/wsdl_types";
+import {Formula} from "../../../../data/wsdl_types";
+import {wjNg2Grid} from '../../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid';
 import CollectionView = wijmo.collections.CollectionView;
-import {BusyIndicator} from "../../commons/BusyIndicator";
-import {ResourceService} from "../../services/commons/ResourceService";
-import {ResourceProviderFactory} from "../../services/commons/ResourceProviderFactory";
-import {DecResponse} from "../../services/commons/DecResponse";
-import {PopupHelper} from "../../commons/PopupHelper";
-import {FormulaFunctionView} from "./FormulaFunctionView";
+import {BusyIndicator} from "../../../commons/BusyIndicator";
+import {ResourceService} from "../../../services/commons/ResourceService";
+import {ResourceProviderFactory} from "../../../services/commons/ResourceProviderFactory";
+import {DecResponse} from "../../../services/commons/DecResponse";
+import {PopupHelper} from "../../../commons/PopupHelper";
 import {ElementRef} from "angular2/core";
 import {Injector} from "angular2/core";
-import {wjNg2Input} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
+import {wjNg2Input} from "../../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
 import Popup = wijmo.input.Popup;
 import PopupTrigger = wijmo.input.PopupTrigger;
 import {Input} from "angular2/core";
 import {QueryList} from "angular2/core";
 import {Query} from "angular2/core";
-import {VerbsComponent} from "./VerbsComponent";
+import {Verbs} from "./../verbs/Verbs";
 import {ViewChild} from "angular2/core";
-import {Function} from "../../../data/wsdl_types";
-import {DataType} from "../../../data/wsdl_types";
-import {PrimitiveDataType} from "../../../data/wsdl_types";
-import {Tab} from "../../userControls/Tab";
+import {Function} from "../../../../data/wsdl_types";
+import {DataType} from "../../../../data/wsdl_types";
+import {PrimitiveDataType} from "../../../../data/wsdl_types";
+import {Tab} from "../../../userControls/Tab";
 import {Host} from "angular2/core";
 import {HostListener} from "angular2/core";
 import {ContentChild} from "angular2/core";
 import {Subscriber} from "rxjs/Subscriber";
+import {FormulaFunction} from "./FormulaFunction";
 
 
 @Component({
     selector: 'formula-functions-settings',
     providers:[ResourceProviderFactory.FunctionsServiceProvider],
-    directives:[wjNg2Grid.WjFlexGrid, wjNg2Grid.WjFlexGridColumn, wjNg2Grid.WjFlexGridCellTemplate,BusyIndicator,wjNg2Input.WjPopup,FormulaFunctionView],
+    directives:[wjNg2Grid.WjFlexGrid, wjNg2Grid.WjFlexGridColumn, wjNg2Grid.WjFlexGridCellTemplate,BusyIndicator,wjNg2Input.WjPopup,FormulaFunction],
     template: `
     <div style="margin-left: 10px">
         <div>
@@ -77,7 +77,7 @@ import {Subscriber} from "rxjs/Subscriber";
 
     </div>`
 })
-export class FormulaFunctionsComponent extends ComponentBase{
+export class FormulaFunctions extends ComponentBase{
 
     private _functions : Array<Function>;
     private _functionsCollectionView:CollectionView;
@@ -98,7 +98,7 @@ export class FormulaFunctionsComponent extends ComponentBase{
         this._newFunction = v;
     }
 
-    @ViewChild(FormulaFunctionView) formulaFunctionView:FormulaFunctionView;
+    @ViewChild(FormulaFunction) formulaFunction:FormulaFunction;
 
     public init(){
 
@@ -175,7 +175,7 @@ export class FormulaFunctionsComponent extends ComponentBase{
             }
             };
 
-        let subscriber= this.formulaFunctionView.submit.subscribe(popupCallback);
+        let subscriber= this.formulaFunction.submit.subscribe(popupCallback);
 
     }
 
@@ -204,7 +204,7 @@ export class FormulaFunctionsComponent extends ComponentBase{
             }
         };
 
-       let subscriber= this.formulaFunctionView.submit.subscribe(popupCallback);
+       let subscriber= this.formulaFunction.submit.subscribe(popupCallback);
 
     }
 

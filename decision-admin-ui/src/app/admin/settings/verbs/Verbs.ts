@@ -1,32 +1,32 @@
 import {bootstrap} from "angular2/platform/browser";
 import {Component} from 'angular2/core';
-import {ComponentBase} from "../../commons/ComponentBase";
-import {AdminService} from "../../services/Admin/AdminService";
+import {ComponentBase} from "../../../commons/ComponentBase";
+import {AdminService} from "../../../services/Admin/AdminService";
 import {Response} from "angular2/http";
-import {FakeAdminService} from "../../services/Admin/FakeAdminService";
+import {FakeAdminService} from "../../../services/Admin/FakeAdminService";
 import {provide} from "angular2/core";
-import {wjNg2Input} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
-import {ResourceService} from "../../services/commons/ResourceService";
+import {wjNg2Input} from "../../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.input";
+import {ResourceService} from "../../../services/commons/ResourceService";
 import {Observable} from "rxjs/Observable";
-import {Verb} from "../../../data/wsdl_types";
+import {Verb} from "../../../../data/wsdl_types";
 import Popup = wijmo.input.Popup;
 import PopupTrigger = wijmo.input.PopupTrigger;
 import CancelEventArgs = wijmo.CancelEventArgs;
-import {PopupManager} from "../../commons/PopupManager";
+import {PopupManager} from "../../../commons/PopupManager";
 import {Injector} from "angular2/core";
-import {BusyIndicator} from "../../commons/BusyIndicator";
-import {AppComponent} from "../../App";
+import {BusyIndicator} from "../../../commons/BusyIndicator";
+import {AppComponent} from "../../../App";
 import {ViewChild} from "angular2/core";
 import ListBox = wijmo.input.ListBox;
-import {PopupHelper} from "../../commons/PopupHelper";
-import {DecResponse} from "../../services/commons/DecResponse";
-import {ResourceProviderFactory} from "../../services/commons/ResourceProviderFactory";
+import {PopupHelper} from "../../../commons/PopupHelper";
+import {DecResponse} from "../../../services/commons/DecResponse";
+import {ResourceProviderFactory} from "../../../services/commons/ResourceProviderFactory";
 import CollectionView = wijmo.collections.CollectionView;
-import {SecurityService} from "../../services/Security/SecurityService";
-import {wjNg2Grid} from "../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid";
-import {DecList} from "./test/DecList";
+import {SecurityService} from "../../../services/Security/SecurityService";
+import {wjNg2Grid} from "../../../../wijmo/scripts/wijmo.angular2/wijmo.angular2.grid";
+import {DecList} from "./../test/DecList";
 import SelectionMode = wijmo.grid.SelectionMode;
-import {Tab} from "../../userControls/Tab";
+import {Tab} from "../../../userControls/Tab";
 import {Host} from "angular2/core";
 
 @Component({
@@ -84,7 +84,7 @@ import {Host} from "angular2/core";
     </div>
     `
 })
-export class VerbsComponent extends ComponentBase {
+export class Verbs extends ComponentBase {
 
     @ViewChild('grid') wjFlexGrid :any;
 
@@ -120,7 +120,7 @@ export class VerbsComponent extends ComponentBase {
     private deleteSelectedVerbs(){
 
         this.selectedVerbs.forEach((v)=>{
-           this.deleteVerb(v.id);
+           thiseleteVerb(v.id);
         });
     }
 
@@ -223,7 +223,7 @@ export class VerbsComponent extends ComponentBase {
     private deleteVerb(id:number){
 
         let self = this;
-        let response = this._resourceService.deleteEntity(id.toString());
+        let response = this._resourceServiceeleteEntity(id.toString());
         this.workingCountUp('deleteVerb');
         response.subscribe((response:DecResponse<any>)=>{
             this.workingCountDown();
