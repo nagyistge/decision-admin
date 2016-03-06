@@ -120,7 +120,7 @@ export class Verbs extends ComponentBase {
     private deleteSelectedVerbs(){
 
         this.selectedVerbs.forEach((v)=>{
-           thiseleteVerb(v.id);
+           this.deleteVerb(v.id);
         });
     }
 
@@ -223,7 +223,7 @@ export class Verbs extends ComponentBase {
     private deleteVerb(id:number){
 
         let self = this;
-        let response = this._resourceServiceeleteEntity(id.toString());
+        let response = this._resourceService.deleteEntity(id.toString());
         this.workingCountUp('deleteVerb');
         response.subscribe((response:DecResponse<any>)=>{
             this.workingCountDown();
