@@ -33,22 +33,22 @@ import CollectionView = wijmo.collections.CollectionView;
     styleUrls: ['./src/app/admin/settings/views/Views.css'],
     template: `
 
-    <div class="cmp-main">
-            <div >
+    <div >
+            <div class="grid-header">
                     <h3> Views </h3>
                     <input #newView type="text" >
                     <button (click)="addView(newView.value)">Add</button>
             </div>
             <busy-indicator [busy]="isWorking" [title]="'please wait'" >
-                <wj-list-box #views_listbox  style="position: absolute;width:inherit; height:100%;margin-top: 10px"
+                <wj-list-box #views_listbox
                                [selectedValue]="selectedView"  [itemsSource]="_viewsCollectionView" >
                     <template wjItemTemplate #item="item" #itemIndex="itemIndex">
-                       <div style="display: flex;flex-direction:row" >
-                             <h7 style="flex-grow:1">{{item.name}}</h7>
+                       <div class="list-row"  >
+                             <p>{{item.name}}</p>
                              <div *ngIf="views_listbox.selectedValue && views_listbox.selectedValue.id==item.id">
                                  <img  class="dec-icon" src="src/app/icons/delete.png" (click)="deleteView(item.id)">
                                  <img  class="dec-icon" src="src/app/icons/edit.png"   [attr.id]="'b'+item.id">
-                                 <wj-popup owner="#b{{item.id}}" style="padding:10px"  >
+                                 <wj-popup owner="#b{{item.id}}" >
                                    <span>Edit value:</span>
                                    <input type="text" [value]="item.name" #valueBox>
                                    <button class="wj-hide" (click)="editView(item,valueBox.value)">OK</button>
