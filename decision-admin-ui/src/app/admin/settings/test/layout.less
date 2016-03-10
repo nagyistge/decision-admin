@@ -1,0 +1,68 @@
+@leftWidth:200px;
+@leftWidthCollapsed:5px;
+@rightWidth:200px;
+@rightWidthCollapsed:5px;
+@topHeight:100px;
+@bottomHeight:100px;
+
+.layout{
+
+   div {
+    overflow: auto;
+    transition: all 0.2s;
+  }
+
+  .middleContainer{
+
+  }
+
+  .top{
+    background-color: lightcyan;
+    width: 100%;
+    height: @topHeight;
+  }
+  .middle{
+    background-color: lightslategrey;
+    float:left;
+    width:  ~"calc(100% - @{leftWidth} - @{rightWidth})";
+    height: ~"calc(100% - @{topHeight})";
+  }
+
+  .middleStretched{
+    .middle;
+    width:  ~"calc(100% - @{leftWidthCollapsed} - @{rightWidth})";
+  }
+
+  .left{
+    background-color: lightblue;
+    float:left;
+    width: @leftWidth;
+    height: ~"calc(100% - @{topHeight})";
+  }
+  .leftCollapsed{
+    .left;
+    width: @leftWidthCollapsed;
+  }
+  .right{
+    background-color: lightblue;
+    float:left;
+    width: 200px;
+    height: ~"calc(100% - @{topHeight})";
+  }
+  .rightCollapsed {
+    .right;
+    width: @rightWidthCollapsed;
+  }
+  .bottom{
+    background-color: lightpink;
+  }
+
+  .box{
+    width: 100px;
+    height: 100px;
+    background-color: lightyellow;
+    margin: 5px;
+    float:left;
+  }
+
+}

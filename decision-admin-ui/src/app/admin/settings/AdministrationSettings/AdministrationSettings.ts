@@ -7,26 +7,27 @@ import {Verbs}  from "./../verbs/Verbs";
 import {FormulaFunctions}  from "./../formulaFunctions/FormulaFunctions";
 import {DecList} from "./../test/DecList";
 import {TestList} from "./../test/TestList";
+import {LayoutTest} from "../test/LayoutTest";
 
 @Component({
     selector: 'administration-settings',
-    directives:[TabControl,Tab,Views,Verbs,FormulaFunctions,NgFor,TestList],
+    directives:[TabControl,Tab,Views,Verbs,FormulaFunctions,NgFor,TestList,LayoutTest],
     template:`
-
      <div class="tab-content">
         <tab-control >
-        <tab  tabTitle="test" >
-            <tests></tests>
-        </tab>
-          <tab tabTitle="verb"  >
+         <tab  tabTitle="test" >
+           <layout></layout>
+           <tests></tests>
+         </tab>
+         <tab tabTitle="verb"  >
             <verbs-settings></verbs-settings>
-          </tab>
-          <tab tabTitle="views" >
+         </tab>
+         <tab tabTitle="views" >
             <views-settings></views-settings>
-          </tab>
-           <tab tabTitle="formula functions">
+         </tab>
+         <tab tabTitle="formula functions">
             <formula-functions-settings></formula-functions-settings>
-          </tab>
+         </tab>
 
 
         </tab-control>

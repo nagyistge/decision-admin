@@ -32,8 +32,8 @@ import SelectionMode = wijmo.grid.SelectionMode;
     selector: 'tests',
     directives:[wjNg2Input.WjListBox,wjNg2Input.WjItemTemplate,wjNg2Input.WjPopup,BusyIndicator,DecList,wjNg2Grid.WjFlexGrid,
                 wjNg2Grid.WjFlexGridColumn, wjNg2Grid.WjFlexGridCellTemplate,wjNg2Input.WjContextMenu,wjNg2Input.WjMenu,wjNg2Input.WjMenuItem],
+    styleUrls: ['./src/app/admin/settings/test/TestList.css'],
     template: `
-
     <div class="block" >
             <dec-list >
                <wj-flex-grid class="test-content"  [wjContextMenu]="ctxMenu"

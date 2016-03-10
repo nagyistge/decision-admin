@@ -1,0 +1,94 @@
+@leftWidth:200px;
+@leftWidthCollapsed:25px;
+@rightWidth:200px;
+@rightWidthCollapsed:25px;
+@topHeight:200px;
+@topButtonsHeight:110px;
+@bottomHeight:100px;
+
+.layout{
+  height: 100%;
+   div {
+    overflow: auto;
+    transition: all 0.2s;
+  }
+
+  .contentA{
+    height: 100%;
+    background-color: lightsalmon;
+    display: flex;
+    flex-direction:row;
+  }
+
+  .topBar{
+    height: @topButtonsHeight;
+    overflow-y: hidden;
+    background-color: #0d2c45;
+  }
+
+  .middleContainer{
+    display:flex;
+    flex-direction:row;
+    height: 100%;
+  }
+
+  .top{
+    flex-grow: 1;
+  }
+  .middle{
+    background-color: lightslategrey;
+    float:left;
+    flex-grow: 1;
+
+  }
+  .middleStretched{
+    .middle;
+  }
+
+  .left{
+    background-color: lightblue;
+    float:left;
+    width: @leftWidth;
+
+  }
+
+  .leftCollapsed{
+    .left;
+    width: @leftWidthCollapsed;
+  }
+  .right{
+    background-color: lightblue;
+    float:left;
+    width: 200px;
+
+  }
+  .rightCollapsed {
+    .right;
+    width: @rightWidthCollapsed;
+  }
+  .bottom{
+    background-color: lightpink;
+  }
+
+  .box{
+    width: 300px;
+    height: 100px;
+    background-color: lightyellow;
+    margin: 5px;
+    float:left;
+
+  }
+  .box2{
+    background-color: lightyellow;
+    margin: 5px;
+   flex-grow: 1;
+  }
+
+  .box3{
+    width: 200px;
+    height: 50px;
+    margin: 5px;
+    background-color: #00b3ee;
+  }
+
+}
