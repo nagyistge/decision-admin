@@ -33,34 +33,14 @@ import CollectionView = wijmo.collections.CollectionView;
     styleUrls: ['./src/app/admin/settings/views/Views.css'],
     template: `
 
-    <div >
-            <div class="grid-header">
-                    <h3> Views </h3>
-                    <input #newView type="text" >
-                    <button (click)="addView(newView.value)">Add</button>
-            </div>
-            <busy-indicator [busy]="isWorking" [title]="'please wait'" >
-                <wj-list-box #views_listbox
-                               [selectedValue]="selectedView"  [itemsSource]="_viewsCollectionView" >
-                    <template wjItemTemplate #item="item" #itemIndex="itemIndex">
-                       <div class="list-row"  >
-                             <p>{{item.name}}</p>
-                             <div *ngIf="views_listbox.selectedValue && views_listbox.selectedValue.id==item.id">
-                                 <img  class="dec-icon" src="src/app/icons/delete.png" (click)="deleteView(item.id)">
-                                 <img  class="dec-icon" src="src/app/icons/edit.png"   [attr.id]="'b'+item.id">
-                                 <wj-popup owner="#b{{item.id}}" >
-                                   <span>Edit value:</span>
-                                   <input type="text" [value]="item.name" #valueBox>
-                                   <button class="wj-hide" (click)="editView(item,valueBox.value)">OK</button>
-                                   <button class="wj-hide">Cancel</button>
-                                </wj-popup>
-                             </div>
+    <div class="grid-container" >
+        <div >
 
-                       </div>
-                    </template>
-                </wj-list-box>
-            </busy-indicator>
-
+        </div>
+        <!--<wj-list-box #views_listbox-->
+                     <!--[selectedValue]="selectedView"-->
+                     <!--[itemsSource]="_viewsCollectionView" >-->
+        <!--</wj-list-box>-->
     </div>
 
     `

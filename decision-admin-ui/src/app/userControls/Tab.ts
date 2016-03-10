@@ -6,7 +6,7 @@ import {EventEmitter} from "angular2/core";
 @Component({
     selector: 'tab',
     template: `
-    <div [hidden]="!active" class="block">
+    <div [hidden]="!active" >
       <ng-content></ng-content>
     </div>
   `

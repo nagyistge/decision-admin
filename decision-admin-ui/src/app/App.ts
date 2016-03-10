@@ -5,6 +5,7 @@ import {AdministrationSettingsComponent} from "./admin/settings/administrationSe
 import {ViewChild} from "angular2/core";
 import {CommunitySettingsComponent} from "./admin/community/CommunitySettings";
 import {SecuritySettingsComponent} from "./admin/security/SecuritySettings";
+import {AdministrationView} from "./admin/AdministrationView";
 
 @RouteConfig([
 
@@ -15,7 +16,7 @@ import {SecuritySettingsComponent} from "./admin/security/SecuritySettings";
 ])
 
 @Component({
-    directives: [ROUTER_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES,AdministrationView],
     selector: 'app',
     template: `
 
@@ -23,18 +24,24 @@ import {SecuritySettingsComponent} from "./admin/security/SecuritySettings";
         <div class="container-fluid header">
             <h1>Decision Admin</h1>
         </div>
-        <nav class="navbar navbar-default">
-         <div class="navbar-collapse">
-          <ul class="nav navbar-nav" >
-              <li (click)="select(route)" [ngClass]="{active: route?.selected}"  *ngFor="#route of routes">
-                <a  [routerLink]="[route?.link]">{{route.name}}</a>
-              </li>
-          </ul>
-          </div>
-        </nav>
-        <main class="container-fluid main-content">
-            <router-outlet></router-outlet>
-        </main>
+        <div class="admin-nav-bar">
+        </div>
+        <div class="admin-tabs">
+           <admin-view></admin-view>
+        </div>
+
+        <!--<nav class="navbar navbar-default">-->
+         <!--<div class="navbar-collapse">-->
+          <!--<ul class="nav navbar-nav" >-->
+              <!--<li (click)="select(route)" [ngClass]="{active: route?.selected}"  *ngFor="#route of routes">-->
+                <!--<a  [routerLink]="[route?.link]">{{route.name}}</a>-->
+              <!--</li>-->
+          <!--</ul>-->
+          <!--</div>-->
+        <!--</nav>-->
+        <!--<main class="container-fluid main-content">-->
+            <!--<router-outlet></router-outlet>-->
+        <!--</main>-->
     </div>
 `
 })

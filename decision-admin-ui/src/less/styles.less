@@ -1,13 +1,25 @@
-@headerHeight:50px;
+@deepBlue:#21376b;
+@headerHeight:80px;
 @adminNavHeight:50px;
 @settingsNavHeight:30px;
 @testHeaderHeight:30px;
+@adminNavBarColor:@deepBlue;
+@navContentColor: #e8e9e8;
+@headerColor:white;
+@gridContainer:white;
+@ulHeight:70px;
+@hoverTabColor: rgba(33, 55, 107, 0.54);
+@selectedTabColor:@deepBlue;
+@tabHeaderColor:#5BA8C1;
 
 html,
 body{
   margin:0;
   padding:0;
   font-size:14px;
+}
+div{
+  overflow: auto;
 }
 
 .block{
@@ -30,12 +42,34 @@ app{
   .block;
    .header{
       height:@headerHeight;
+      background-color: @headerColor;
      h1{
        margin:0;
        font-size:1.4em;
        line-height:@headerHeight;
      }
    }
+  .grid-container{
+    background-color: @gridContainer ;
+    >div:first-child{
+      min-height: 200px;
+    }
+
+  }
+
+  .content{
+    background-color: @navContentColor;
+  }
+  .admin-nav-bar{
+    height: @adminNavHeight;
+    background-color: @adminNavBarColor;
+  }
+
+  .admin-tabs{
+    min-height: ~ "calc(100% - @{adminNavHeight} - @{headerHeight})" ;
+    background-color: @navContentColor;
+  }
+
   .navbar{
     height:@adminNavHeight;
     min-height:0;
@@ -48,57 +82,64 @@ app{
     height: ~"calc(100% - @{adminNavHeight} - @{headerHeight})";
   }
 
-  .tab-content{
-    position:relative;
-    height: ~"calc(100% - @{settingsNavHeight})";
-  }
-
   .test-content{
     position:relative;
     height: ~"calc(100% - @{testHeaderHeight})";
   }
 
-}
+  admin-view{
+    > div{
+      &:first-child{
+        padding-top: 10px;
+      }
+    }
 
-
-ul.app-tabs{
-  .clear-ul;
-   > li{
-    float:left;
-    display: block;
-    padding:8px 15px;
-     border:1px solid #cacaca;
-     border-right-width:0;
-     background-color: #fafafa;
-     cursor: pointer;
-
-     &:last-child{
-       border-right-width:1px;
-     }
-
-     &.active{
-       border-bottom-width:0;
-       background-color: #fff;
-     }
-
-     &:hover{
-       a{
-         top:5px;
-       }
-     }
-
-     a{
-       color:#333;
-       text-decoration: none;
-       position: relative;
-       transition: all 0.2s;
-       top:0;
-       h5{
-         margin:0;
-       }
-     }
   }
 
+  tab-control{
+    > ul{
+      .clear-ul;
+      height: @ulHeight;
+
+      > li{
+        float:left;
+        display: block;
+        padding:1px 15px;
+        cursor: pointer;
+        color: @tabHeaderColor;
+
+        &.active{
+          border-bottom-width: 8px;
+          border-color: @selectedTabColor;
+          border-bottom-style: solid;
+          color:black;
+        }
+
+        &:hover{
+          border-bottom-width: 8px;
+          border-color: @hoverTabColor;
+          border-bottom-style: solid;
+        }
+
+        a{
+          color:#333;
+          text-decoration: none;
+          position: relative;
+          transition: all 0.2s;
+          top:0;
+          h3{
+            margin:0;
+          }
+        }
+      }
+    }
+  }
 }
+
+
+
+
+
+
 
 
