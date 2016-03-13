@@ -6,6 +6,7 @@ import {ViewChild} from "angular2/core";
 import {CommunitySettingsComponent} from "./admin/community/CommunitySettings";
 import {SecuritySettingsComponent} from "./admin/security/SecuritySettings";
 import {AdministrationView} from "./admin/AdministrationView";
+import {NgClass} from "angular2/common";
 
 @RouteConfig([
 
@@ -16,20 +17,50 @@ import {AdministrationView} from "./admin/AdministrationView";
 ])
 
 @Component({
-    directives: [ROUTER_DIRECTIVES,AdministrationView],
+    directives: [ROUTER_DIRECTIVES,AdministrationView,NgClass],
     selector: 'app',
     template: `
 
     <div >
         <div class="container-fluid header">
-            <h1>Decision Admin</h1>
+            <img src="src/app/icons/decision.png" height="100%">
         </div>
         <div class="admin-nav-bar">
+            <div class="menu-btn" (click)="toggleMenu()">
+                <div>
+                    <div>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </div>
+                </div>
+                <div>
+                   <h2>Admin</h2>
+                </div>
+            </div>
         </div>
-        <div class="admin-tabs">
-           <admin-view></admin-view>
-        </div>
+       <div class="admin-content">
+            <div class="left-toggle-menu" [ngClass]="{collapsed: !sideMenuOpen}">
+                <div>
+                    <div class="icon-title-pair">
+                     <img src="src/app/icons/communities.png">
+                     <h4>Communities</h4>
+                   </div>
+                   <div class="icon-title-pair">
+                     <img src="src/app/icons/security.png">
+                     <h4>Security</h4>
+                   </div>
+                   <div class="icon-title-pair">
+                     <img src="src/app/icons/settings.png">
+                     <h4>Settings</h4>
+                   </div>
 
+                </div>
+            </div>
+            <div class="admin-tabs-container">
+               <admin-view></admin-view>
+            </div>
+       </div>
         <!--<nav class="navbar navbar-default">-->
          <!--<div class="navbar-collapse">-->
           <!--<ul class="nav navbar-nav" >-->
@@ -57,6 +88,13 @@ export class AppComponent {
         this.routes.push(community);
         this.routes[0].selected=true;
     }
+
+    private sideMenuOpen :boolean = false;
+
+    toggleMenu(){
+        this.sideMenuOpen= !this.sideMenuOpen;
+    }
+
 
     private select(route){
         this.routes.forEach((r)=>{

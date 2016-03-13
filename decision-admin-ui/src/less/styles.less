@@ -11,6 +11,9 @@
 @hoverTabColor: rgba(33, 55, 107, 0.54);
 @selectedTabColor:@deepBlue;
 @tabHeaderColor:#5BA8C1;
+@navButttonColor: #2e52a3;
+@toggleMenuWidth:200px;
+
 
 html,
 body{
@@ -41,12 +44,13 @@ div{
 app{
   .block;
    .header{
-      height:@headerHeight;
-      background-color: @headerColor;
-     h1{
-       margin:0;
-       font-size:1.4em;
-       line-height:@headerHeight;
+     height:@headerHeight;
+     background-color: @headerColor;
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     img{
+       height: 80%;
      }
    }
   .grid-container{
@@ -63,11 +67,98 @@ app{
   .admin-nav-bar{
     height: @adminNavHeight;
     background-color: @adminNavBarColor;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
-  .admin-tabs{
-    min-height: ~ "calc(100% - @{adminNavHeight} - @{headerHeight})" ;
+  .admin-content {
+    display:flex;
+    flex-direction: row;
     background-color: @navContentColor;
+
+    .left-toggle-menu{
+      width: @toggleMenuWidth;
+      >div:first-child{
+        width: @toggleMenuWidth;
+        margin-top: 20px;
+        margin-left:10px;
+      }
+    }
+
+    .left-toggle-menu.collapsed{
+      width: 0px;
+    }
+
+    .admin-tabs-container{
+      flex-grow: 1;
+      min-height: ~ "calc(100% - @{adminNavHeight} - @{headerHeight})" ;
+
+    }
+
+    div{
+      transition: all 0.2s;
+    }
+
+  }
+
+  .icon-title-pair{
+    cursor: pointer;
+    margin: 5px;
+    >img{
+      float:left;
+      width: 40px;
+    }
+
+    >h6,h5,h4,h3,h2,h1{
+      float:left;
+    }
+
+  }
+
+
+  .main-content{
+    padding-top:20px;
+    position:relative;
+    height: ~"calc(100% - @{adminNavHeight} - @{headerHeight})";
+  }
+
+
+  .icon-bar {
+    display: block;
+    width: 22px;
+    height: 3px;
+    border-radius: 1px;
+    margin-top:5px ;
+    margin-bottom: 2px;
+    background-color: white;
+  }
+
+  .menu-btn{
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    height:80%;
+    padding-left: 5px;
+    background-color: @navButttonColor;
+    >div:first-child{
+      display:flex;
+      flex-direction: row;
+      align-items: center;
+      width: 50px;
+      height: 100%;
+      margin-left: 20px;
+    }
+    >div:last-child{
+      padding-right: 100px;
+      overflow: hidden;
+      >h2{
+        line-height: inherit;
+        margin: 0px;
+        color: white;
+      }
+    }
+
   }
 
   .navbar{
@@ -76,11 +167,8 @@ app{
     margin-bottom:0;
   }
 
-  .main-content{
-    padding-top:20px;
-    position:relative;
-    height: ~"calc(100% - @{adminNavHeight} - @{headerHeight})";
-  }
+
+
 
   .test-content{
     position:relative;
@@ -88,9 +176,14 @@ app{
   }
 
   admin-view{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
     > div{
       &:first-child{
         padding-top: 10px;
+        width:90%
       }
     }
 
