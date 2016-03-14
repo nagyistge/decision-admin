@@ -10,7 +10,7 @@ import {NgClass} from "angular2/common";
 @RouteConfig([
 
     { path: '/settings', component: Settings, as: 'Settings' },
-    { path: '/community', component: CommunitySettings, as: 'Community' },
+    { path: '/communities', component: CommunitySettings, as: 'Communities' },
     { path: '/security', component: SecuritySettings, as: 'Security' }
 
 ])
@@ -42,7 +42,7 @@ import {NgClass} from "angular2/common";
        <div class="admin-content">
             <div class="left-toggle-menu" [ngClass]="{collapsed: !sideMenuOpen}">
                 <div>
-                    <div class="icon-title-pair" (click)="navigateTo('Community')">
+                    <div class="icon-title-pair" (click)="navigateTo('Communities')">
                      <img src="src/app/icons/communities.png">
                      <h4>Communities</h4>
                    </div>
@@ -75,7 +75,7 @@ export class AppComponent  {
         this.routes.push(settings);
         let security = new Route("/Security","Security");
         this.routes.push(security);
-        let community = new Route("/Community","Community");
+        let community = new Route("/Communities","Communities");
         this.routes.push(community);
         this.routes[0].selected=true;
     }
