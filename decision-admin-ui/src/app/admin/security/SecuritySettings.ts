@@ -1,6 +1,6 @@
 import { Component } from 'angular2/core';
-import {TabControl} from "../../userControls/TabControl";
-import {Tab} from "../../userControls/Tab";
+import {TabControl} from "../../userControls/tabControl/TabControl";
+import {Tab} from "../../userControls/tabControl/Tab";
 
 
 @Component({
@@ -22,7 +22,7 @@ import {Tab} from "../../userControls/Tab";
      </div>
   `,
 })
-export class SecuritySettingsComponent {
+export class SecuritySettings{
 
 
 }

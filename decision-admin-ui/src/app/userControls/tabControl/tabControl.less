@@ -1,0 +1,42 @@
+@import "../../../less/styles";
+
+   ul{
+    .clear-ul;
+    height: @ulHeight;
+
+    > li{
+      float:left;
+      display: block;
+      padding:1px 15px;
+      cursor: pointer;
+      color: @tabHeaderColor;
+
+      &.active{
+        border-bottom-width: 8px;
+        border-color: @selectedTabColor;
+        border-bottom-style: solid;
+        color:black;
+      }
+
+      &:hover{
+        border-bottom-width: 8px;
+        border-color: @hoverTabColor;
+        border-bottom-style: solid;
+      }
+
+      a{
+        color:#333;
+        text-decoration: none;
+        position: relative;
+        transition: all 0.2s;
+        top:0;
+        h3{
+          margin:0;
+        }
+      }
+    }
+  }
+.content{
+  background-color: white;
+  min-height: 200px;
+}

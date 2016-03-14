@@ -19,7 +19,4 @@ export class BusyIndicator{
 
     @Input() busy:boolean = true;
     @Input() title:string= 'Loading';
-
-
-    //[ngClass]="{active: busy, disabled: not-busy}"
 }

@@ -8,7 +8,7 @@ import {EventEmitter} from "angular2/core";
 export  class ComponentBase{
 
     constructor() {
-        this._hashId = Math.floor(Math.random()*100000);
+        this._hashId = Date.now();
         this.title = this.getHashId().toString();
         this.active=false;
     }

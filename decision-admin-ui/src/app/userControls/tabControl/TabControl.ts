@@ -2,12 +2,13 @@ import {Component} from "angular2/core";
 import {Tab} from "./Tab";
 import {ViewChild} from "angular2/core";
 import {ElementRef} from "angular2/core";
-import {ComponentBase} from "../commons/ComponentBase";
+import {ComponentBase} from "../../commons/ComponentBase";
 import {Query} from "angular2/core";
 import {QueryList} from "angular2/core";
 
 @Component({
     selector: 'tab-control',
+    styleUrls: ['./src/app/userControls/tabControl/tabControl.css'],
     template: `
     <ul>
       <li *ngFor="#tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
@@ -16,7 +17,7 @@ import {QueryList} from "angular2/core";
         </div>
       </li>
     </ul>
-    <div  id="content" >
+    <div class="content">
         <ng-content></ng-content>
     </div>
   `,

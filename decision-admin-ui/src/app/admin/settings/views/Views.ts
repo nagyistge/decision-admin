@@ -33,7 +33,7 @@ import CollectionView = wijmo.collections.CollectionView;
     styleUrls: ['./src/app/admin/settings/views/Views.css'],
     template: `
 
-    <div class="grid-container" >
+    <div >
         <div >
             <div *ngFor="#item of views" style="margin: 10px;border:1px solid">
                 <h3 style="margin: 10px">

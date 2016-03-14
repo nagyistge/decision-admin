@@ -1,23 +1,22 @@
 ﻿import {bootstrap} from 'angular2/platform/browser';
 import {Component} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES,ComponentInstruction} from 'angular2/router';
-import {AdministrationSettingsComponent} from "./admin/settings/administrationSettings/AdministrationSettings";
+import {Settings} from "./admin/settings/Settings";
 import {ViewChild} from "angular2/core";
-import {CommunitySettingsComponent} from "./admin/community/CommunitySettings";
-import {SecuritySettingsComponent} from "./admin/security/SecuritySettings";
-import {AdministrationView} from "./admin/AdministrationView";
+import {CommunitySettings} from "./admin/community/CommunitySettings";
+import {SecuritySettings} from "./admin/security/SecuritySettings";
 import {NgClass} from "angular2/common";
 
 @RouteConfig([
 
-    { path: '/settings', component: AdministrationView, as: 'Settings' },
-    { path: '/community', component: CommunitySettingsComponent, as: 'Community' },
-    { path: '/security', component: SecuritySettingsComponent, as: 'Security' }
+    { path: '/settings', component: Settings, as: 'Settings' },
+    { path: '/community', component: CommunitySettings, as: 'Community' },
+    { path: '/security', component: SecuritySettings, as: 'Security' }
 
 ])
 
 @Component({
-    directives: [ROUTER_DIRECTIVES,AdministrationView,NgClass],
+    directives: [ROUTER_DIRECTIVES,Settings,NgClass],
     selector: 'app',
     template: `
 
@@ -59,7 +58,9 @@ import {NgClass} from "angular2/common";
                 </div>
             </div>
             <div class="admin-tabs-container">
-               <router-outlet></router-outlet>
+                <div>
+                 <router-outlet></router-outlet>
+               </div>
             </div>
        </div>
 

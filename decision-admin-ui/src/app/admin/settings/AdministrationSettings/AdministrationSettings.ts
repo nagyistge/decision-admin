@@ -1,7 +1,7 @@
 import { Component } from 'angular2/core';
 import {NgFor} from "angular2/common";
-import {TabControl} from "../../../userControls/TabControl";
-import {Tab} from "../../../userControls/Tab";
+import {TabControl} from "../../../userControls/tabControl/TabControl";
+import {Tab} from "../../../userControls/tabControl/Tab";
 import {Views}  from "./../views/Views";
 import {Verbs}  from "./../verbs/Verbs";
 import {FormulaFunctions}  from "./../formulaFunctions/FormulaFunctions";
@@ -10,7 +10,7 @@ import {TestList} from "./../test/TestList";
 import {LayoutTest} from "../test/LayoutTest";
 
 @Component({
-    selector: 'administration-settings',
+    selector: 'settings',
     directives:[TabControl,Tab,Views,Verbs,FormulaFunctions,NgFor,TestList,LayoutTest],
     template:`
      <div class="tab-content">
@@ -35,7 +35,7 @@ import {LayoutTest} from "../test/LayoutTest";
      </div>
   `,
 })
-export class AdministrationSettingsComponent {
+export class SettingsComponent {
 
 
 }

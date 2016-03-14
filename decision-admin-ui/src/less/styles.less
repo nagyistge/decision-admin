@@ -53,17 +53,8 @@ app{
        height: 80%;
      }
    }
-  .grid-container{
-    background-color: @gridContainer ;
-    >div:first-child{
-      min-height: 200px;
-    }
 
-  }
 
-  .content{
-    background-color: @navContentColor;
-  }
   .admin-nav-bar{
     height: @adminNavHeight;
     background-color: @adminNavBarColor;
@@ -96,9 +87,17 @@ app{
     }
 
     .admin-tabs-container{
+      display: flex;
+      align-items: center;
+      flex-direction: column;
       flex-grow: 1;
       min-height: ~ "calc(100% - @{adminNavHeight} - @{headerHeight})" ;
-
+      padding-top: 10px;
+      width: 100%;
+      >div:first-child{
+         padding-top: 10px;
+         width: 90%;
+       }
     }
 
     div{
@@ -180,58 +179,11 @@ app{
     height: ~"calc(100% - @{testHeaderHeight})";
   }
 
-  admin-view{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    > div{
-      &:first-child{
-        padding-top: 10px;
-        width:90%
-      }
-    }
-
-  }
-
   tab-control{
-    > ul{
-      .clear-ul;
-      height: @ulHeight;
-
-      > li{
-        float:left;
-        display: block;
-        padding:1px 15px;
-        cursor: pointer;
-        color: @tabHeaderColor;
-
-        &.active{
-          border-bottom-width: 8px;
-          border-color: @selectedTabColor;
-          border-bottom-style: solid;
-          color:black;
-        }
-
-        &:hover{
-          border-bottom-width: 8px;
-          border-color: @hoverTabColor;
-          border-bottom-style: solid;
-        }
-
-        a{
-          color:#333;
-          text-decoration: none;
-          position: relative;
-          transition: all 0.2s;
-          top:0;
-          h3{
-            margin:0;
-          }
-        }
-      }
-    }
+    width:100%;
   }
+
+
 }
 
 
