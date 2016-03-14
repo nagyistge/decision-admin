@@ -5,7 +5,7 @@ import {EventEmitter} from "angular2/core";
 
 
 @Injectable()
-export  class ComponentBase {
+export  class ComponentBase{
 
     constructor() {
         this._hashId = Math.floor(Math.random()*100000);

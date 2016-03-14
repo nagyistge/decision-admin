@@ -35,7 +35,11 @@ import CollectionView = wijmo.collections.CollectionView;
 
     <div class="grid-container" >
         <div >
-
+            <div *ngFor="#item of views" style="margin: 10px;border:1px solid">
+                <h3 style="margin: 10px">
+                    {{item.name}}
+                </h3>
+            </div>
         </div>
         <!--<wj-list-box #views_listbox-->
                      <!--[selectedValue]="selectedView"-->
@@ -73,7 +77,16 @@ export class Views extends ComponentBase{
 
     public init()
     {
-        this.getAllViews();
+        //mock data
+        for(let i = 0; i<20;i++)
+        {
+            let v = <View>{};
+            v.name= "generated " + i;
+            this.views.push(v);
+        }
+
+        //real data
+        //this.getAllViews();
     }
 
     private getAllViews(){

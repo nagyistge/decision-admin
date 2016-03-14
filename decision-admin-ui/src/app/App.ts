@@ -1,6 +1,6 @@
 ﻿import {bootstrap} from 'angular2/platform/browser';
 import {Component} from 'angular2/core';
-import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {RouteConfig, Router, ROUTER_DIRECTIVES,ComponentInstruction} from 'angular2/router';
 import {AdministrationSettingsComponent} from "./admin/settings/administrationSettings/AdministrationSettings";
 import {ViewChild} from "angular2/core";
 import {CommunitySettingsComponent} from "./admin/community/CommunitySettings";
@@ -10,7 +10,7 @@ import {NgClass} from "angular2/common";
 
 @RouteConfig([
 
-    { path: '/settings', component: AdministrationSettingsComponent, as: 'Settings' },
+    { path: '/settings', component: AdministrationView, as: 'Settings' },
     { path: '/community', component: CommunitySettingsComponent, as: 'Community' },
     { path: '/security', component: SecuritySettingsComponent, as: 'Security' }
 
@@ -38,19 +38,20 @@ import {NgClass} from "angular2/common";
                    <h2>Admin</h2>
                 </div>
             </div>
+            <h2 class="routeHeader">{{currentRouteName}}</h2>
         </div>
        <div class="admin-content">
             <div class="left-toggle-menu" [ngClass]="{collapsed: !sideMenuOpen}">
                 <div>
-                    <div class="icon-title-pair">
+                    <div class="icon-title-pair" (click)="navigateTo('Community')">
                      <img src="src/app/icons/communities.png">
                      <h4>Communities</h4>
                    </div>
-                   <div class="icon-title-pair">
+                   <div class="icon-title-pair" (click)="navigateTo('Security')">
                      <img src="src/app/icons/security.png">
                      <h4>Security</h4>
                    </div>
-                   <div class="icon-title-pair">
+                   <div class="icon-title-pair" (click)="navigateTo('Settings')">
                      <img src="src/app/icons/settings.png">
                      <h4>Settings</h4>
                    </div>
@@ -58,28 +59,17 @@ import {NgClass} from "angular2/common";
                 </div>
             </div>
             <div class="admin-tabs-container">
-               <admin-view></admin-view>
+               <router-outlet></router-outlet>
             </div>
        </div>
-        <!--<nav class="navbar navbar-default">-->
-         <!--<div class="navbar-collapse">-->
-          <!--<ul class="nav navbar-nav" >-->
-              <!--<li (click)="select(route)" [ngClass]="{active: route?.selected}"  *ngFor="#route of routes">-->
-                <!--<a  [routerLink]="[route?.link]">{{route.name}}</a>-->
-              <!--</li>-->
-          <!--</ul>-->
-          <!--</div>-->
-        <!--</nav>-->
-        <!--<main class="container-fluid main-content">-->
-            <!--<router-outlet></router-outlet>-->
-        <!--</main>-->
+
     </div>
 `
 })
-export class AppComponent {
+export class AppComponent  {
 
     routes:Route[]=[];
-    constructor() {
+    constructor(private _router: Router) {
         let settings = new Route("/Settings","Settings");
         this.routes.push(settings);
         let security = new Route("/Security","Security");
@@ -89,6 +79,23 @@ export class AppComponent {
         this.routes[0].selected=true;
     }
 
+    private navigateTo(target:string){
+        this._router.navigate([target]);
+        this.currentRouteName = target;
+    }
+
+    ngOnInit()
+    {
+        this.currentRouteName = this._router.lastNavigationAttempt.slice(1);
+    }
+    private _currentRouteName : string;
+
+    public get currentRouteName() : string {
+        return this._currentRouteName;
+    }
+    public set currentRouteName(v : string) {
+        this._currentRouteName = v;
+    }
     private sideMenuOpen :boolean = false;
 
     toggleMenu(){
