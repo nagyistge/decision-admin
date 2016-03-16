@@ -1,67 +1,45 @@
-@deepBlue:#21376b;
-@headerHeight:80px;
-@adminNavHeight:50px;
-@settingsNavHeight:30px;
-@testHeaderHeight:30px;
-@adminNavBarColor:@deepBlue;
-@navContentColor: #e8e9e8;
-@headerColor:white;
-@gridContainer:white;
-@ulHeight:70px;
-@hoverTabColor: rgba(33, 55, 107, 0.54);
-@selectedTabColor:@deepBlue;
-@tabHeaderColor:#5BA8C1;
-@navButttonColor: #2e52a3;
-@toggleMenuWidth:200px;
-
+@import "vars";
+@import "commons";
 
 html,
 body{
   margin:0;
   padding:0;
   font-size:14px;
+  background-color: @mainBackgroundColor;
 }
 div{
   overflow: auto;
 }
 
-.block{
-  display: block;
-  width:100%;
-  height:100%;
-}
-
-.clear-ul{
-  margin:0;
-  padding:0;
-  list-style: none;
-  li{
-    margin:0;
-    padding:0;
-  }
-}
-
 app{
-  .block;
+
    .header{
      height:@headerHeight;
      background-color: @headerColor;
-     display: flex;
-     flex-direction: row;
-     align-items: center;
+     .vertical-center-content;
      img{
        height: 80%;
      }
    }
 
+  .stickToTop{
+    .admin-nav-bar {
+      position: fixed;
+      width: 100%;
+      top: 0;
+    }
+    .palce-holder{
+      height: @adminNavHeight;
+    }
+  }
+
 
   .admin-nav-bar{
     height: @adminNavHeight;
     background-color: @adminNavBarColor;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    .routeHeader{
+    .vertical-center-content;
+    >h2{
       line-height: inherit;
       margin: 0px 20px;
       color: white;
@@ -71,27 +49,25 @@ app{
   .admin-content {
     display:flex;
     flex-direction: row;
-    background-color: @navContentColor;
+    background-color: @mainBackgroundColor;
 
     .left-toggle-menu{
       width: @toggleMenuWidth + 50px;
+      overflow:hidden;
       >div:first-child{
         width: @toggleMenuWidth;
         margin-top: 20px;
         margin-left:10px;
       }
+      &.collapsed{
+        width: 0px;
+      }
     }
 
-    .left-toggle-menu.collapsed{
-      width: 0px;
-    }
 
     .admin-tabs-container{
-      display: flex;
-      align-items: center;
-      flex-direction: column;
+      .horizontal-center-content;
       flex-grow: 1;
-      min-height: ~ "calc(100% - @{adminNavHeight} - @{headerHeight})" ;
       padding-top: 10px;
       width: 100%;
       >div:first-child{
@@ -101,7 +77,7 @@ app{
     }
 
     div{
-      transition: all 0.2s;
+      .transition(all 0.2s);
     }
 
   }
@@ -116,6 +92,8 @@ app{
 
     >h6,h5,h4,h3,h2,h1{
       float:left;
+      color: gray;
+      margin-left: 10px;
     }
 
   }
@@ -128,15 +106,6 @@ app{
   }
 
 
-  .icon-bar {
-    display: block;
-    width: 22px;
-    height: 3px;
-    border-radius: 1px;
-    margin-top:5px ;
-    margin-bottom: 2px;
-    background-color: white;
-  }
 
   .menu-btn{
     cursor: pointer;
@@ -146,20 +115,20 @@ app{
     width:250px;
     padding-left: 5px;
     background-color: @navButttonColor;
-    >div:first-child{
-      display:flex;
-      flex-direction: row;
-      align-items: center;
-      width: 50px;
-      height: 100%;
-      margin-left: 20px;
-    }
-    >div:last-child{
-      overflow: hidden;
-      >h2{
-        line-height: inherit;
-        margin: 0px;
-        color: white;
+    >div {
+      &:first-child {
+        .vertical-center-content;
+        width: 50px;
+        height: 100%;
+        margin-left: 20px;
+      }
+      &:last-child {
+        overflow: hidden;
+        > h2 {
+          line-height: inherit;
+          margin: 0px;
+          color: white;
+        }
       }
     }
 
@@ -179,9 +148,6 @@ app{
     height: ~"calc(100% - @{testHeaderHeight})";
   }
 
-  tab-control{
-    width:100%;
-  }
 
 
 }

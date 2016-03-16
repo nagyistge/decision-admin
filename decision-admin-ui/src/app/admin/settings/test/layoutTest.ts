@@ -1,8 +1,13 @@
 import {Component} from "angular2/core";
 import {NgClass} from "angular2/common";
+import {Directive} from "angular2/core";
+import {FORM_DIRECTIVES} from "angular2/common";
+import {NgModel} from "angular2/common";
+import {HostBinding,HostListener} from "angular2/core";
+import {App1} from "./app1";
 
 @Component({
-    directives:[NgClass],
+    directives:[NgClass,App1],
     selector : 'layout',
     styleUrls: ['./src/app/admin/settings/test/layout1.css'],
     template:`
@@ -10,86 +15,9 @@ import {NgClass} from "angular2/common";
             <div class="top" >
             </div>
             <div class="middleContainer">
-                <div (click)="toggleLeftBar()" [ngClass]="{left: !leftBarCollapsed , leftCollapsed: leftBarCollapsed}">
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                </div>
-
-                <div [ngClass]="{middle: !leftBarCollapsed , middleStretched: leftBarCollapsed}">
-
-
-                       <div class="contentA">
-                        <div class="box2">
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-
-                        </div>
-                        <div class="box2">
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                             <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            <div class="box3"></div>
-                            </div>
-                       </div>
-
-                </div>
-
-                <div (click)="toggleRightBar()" [ngClass]="{right: !rightBarCollapsed , rightCollapsed: rightBarCollapsed}">
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                       <div class="box"></div>
-                </div>
+               <app1></app1>
             </div>
-            <div class="bottom" ></div>
         </div>
-
     `
 })
 export class LayoutTest{
@@ -104,3 +32,5 @@ export class LayoutTest{
         this.rightBarCollapsed = !this.rightBarCollapsed;
     }
 }
+
+

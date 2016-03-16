@@ -6,6 +6,9 @@ import {ViewChild} from "angular2/core";
 import {CommunitySettings} from "./admin/community/CommunitySettings";
 import {SecuritySettings} from "./admin/security/SecuritySettings";
 import {NgClass} from "angular2/common";
+import {ElementRef} from "angular2/core";
+import {QueryList} from "angular2/core";
+import {Query} from "angular2/core";
 
 @RouteConfig([
 
@@ -16,15 +19,17 @@ import {NgClass} from "angular2/common";
 ])
 
 @Component({
+    providers:[ElementRef],
     directives: [ROUTER_DIRECTIVES,Settings,NgClass],
     selector: 'app',
     template: `
 
-    <div >
-        <div class="container-fluid header">
-            <img src="src/app/icons/decision.png" height="100%">
+    <div  [ngClass]="{stickToTop : stickNavHeader}">
+        <div class="container-fluid header block" >
+            <img src="src/app/icons/decision.png" >
         </div>
-        <div class="admin-nav-bar">
+        <div class="palce-holder"></div>
+        <div class="admin-nav-bar" >
             <div class="menu-btn" (click)="toggleMenu()">
                 <div>
                     <div>
@@ -37,22 +42,29 @@ import {NgClass} from "angular2/common";
                    <h2>Admin</h2>
                 </div>
             </div>
-            <h2 class="routeHeader">{{currentRouteName}}</h2>
+            <h2 >{{currentRouteName}}</h2>
         </div>
        <div class="admin-content">
             <div class="left-toggle-menu" [ngClass]="{collapsed: !sideMenuOpen}">
                 <div>
                     <div class="icon-title-pair" (click)="navigateTo('Communities')">
                      <img src="src/app/icons/communities.png">
-                     <h4>Communities</h4>
+                     <a [routerLink]="['Communities']">
+                        <h4>Communities</h4>
+                     </a>
+
                    </div>
                    <div class="icon-title-pair" (click)="navigateTo('Security')">
                      <img src="src/app/icons/security.png">
-                     <h4>Security</h4>
+                     <a [routerLink]="['Security']">
+                        <h4>Security</h4>
+                     </a>
                    </div>
                    <div class="icon-title-pair" (click)="navigateTo('Settings')">
                      <img src="src/app/icons/settings.png">
-                     <h4>Settings</h4>
+                     <a [routerLink]="['Settings']">
+                        <h4>Settings</h4>
+                     </a>
                    </div>
 
                 </div>
@@ -69,15 +81,21 @@ import {NgClass} from "angular2/common";
 })
 export class AppComponent  {
 
-    routes:Route[]=[];
-    constructor(private _router: Router) {
-        let settings = new Route("/Settings","Settings");
-        this.routes.push(settings);
-        let security = new Route("/Security","Security");
-        this.routes.push(security);
-        let community = new Route("/Communities","Communities");
-        this.routes.push(community);
-        this.routes[0].selected=true;
+    private _stickNavHeader : boolean;
+
+    public get stickNavHeader() : boolean {
+        return this._stickNavHeader;
+    }
+    public set stickNavHeader(v : boolean) {
+        this._stickNavHeader = v;
+    }
+
+    private _headerHeight:number;
+    private _header :ElementRef;
+    constructor(private _router: Router,elementRef:ElementRef) {
+
+        //TODO: need to take this number from the header element
+        this._headerHeight=80;
     }
 
     private navigateTo(target:string){
@@ -85,9 +103,34 @@ export class AppComponent  {
         this.currentRouteName = target;
     }
 
+    onScroll(event) {
+
+           //
+           //
+           //let yOffset:number=0;
+           //
+           // //if chrome
+           // yOffset = event.parh[0].pageYOffset;
+           // //if IE
+           // yOffset = event.view.pageYOffset;
+           //
+           // if(yOffset > this._headerHeight)
+           // {
+           //     this.stickNavHeader = true;
+           // }
+           // else {
+           //     this.stickNavHeader = false;
+           // }
+
+    }
+
+
     ngOnInit()
     {
+        let self =this;
         this.currentRouteName = this._router.lastNavigationAttempt.slice(1);
+        window.addEventListener('scroll',($event)=>self.onScroll($event));
+
     }
     private _currentRouteName : string;
 
@@ -104,23 +147,5 @@ export class AppComponent  {
     }
 
 
-    private select(route){
-        this.routes.forEach((r)=>{
-           r.selected=false;
-        });
-        route.selected=true;
-    }
-
-}
-
-class Route{
-    constructor(link,name)
-    {
-        this.link = link;
-        this.name=name;
-    }
-    name:string;
-    selected:boolean;
-    link:string;
 }
 
